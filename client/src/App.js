@@ -55,9 +55,12 @@ function App() {
 
 export default App;
 
+// ISSUES
+// - name of preview image no longer works due to image input change + need to hide the preview on change
+// - fileServices.js cannot find the file to upload half the time (ENOENT error) - either some sort of race condition issue or relative directory issue
+
 // TO DOS
 // - Create startup README.md for WHOLE application (incl. reworking .ENV)
-// - Rework CSS into coherent / modern design (Home, About, Grid)
 // - Refactor CSS into reusable components (`CXNavLink`, `StyledLabel`, `StyledInput` and `UserNav`)
 
 // OPTIONAL TODOS

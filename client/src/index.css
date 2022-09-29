@@ -8,9 +8,11 @@
   --complementary: #111827;
 
   /* TAILWIND: GRAY 200-400 */
+  --highlight-super-light: #f9fafb;
   --highlight-light: #e5e7eb;
   --highlight: #d1d5db;
   --highlight-dark: #9ca3af;
+  --highlight-super-dark: #4b5563;
   
   /* TAILWIND: INDIGO 600-700 */
   --brand: #4f46e5; 
@@ -25,6 +27,7 @@
 
 body {
   font-family: 'Barlow', sans-serif;
+  color: var(--complementary);
   background: white;
   box-sizing: border-box;
 }

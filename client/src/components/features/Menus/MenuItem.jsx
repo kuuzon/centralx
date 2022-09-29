@@ -1,40 +1,51 @@
 import React from 'react';
-
-// External packages
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const TableRow = styled.tr`
-  margin: 1rem 0%;
-
-  td {
+const Styles = styled.div`
+  .grid-row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+  
+    border: 0.1rem solid var(--highlight-light);
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
     padding: 1rem;
-    vertical-align: middle;
-    font-size: 0.9rem;
-
-    img {
-      max-width: 40px;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      transform: scale(1.008);
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      cursor: pointer;
+      background-color: var(--brand-dark);
+      color: var(--primary);
     }
     
-    p {
-      display: inline;
-      vertical-align: middle;
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-left: 1rem;
-    }
-
-    span {
-      vertical-align: -10%;
-      color: var(--highlight-dark);
-      font-size: 0.7rem;
-      font-weight: bold;
-      margin-left: 0.4rem;
+    .grid-description {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      align-items: center;
+      justify-content: space-around;
+      padding-left: 1rem;
+  
+      img {
+        max-width: 60px;
+      }
+  
+      .coin-symbol {
+        color: var(--highlight-dark);
+        font-size: 0.8em;
+        font-weight: bold;
+      }
     }
   }
 `;
 
 const StyledLink = styled(Link)`
+  margin: 0 2rem;
   min-width: 100px;
   font-size: 0.9rem;
 `;
@@ -47,41 +58,41 @@ const ColorChange = styled.div`
 
 const MenuItem = (props) => {
   return (
-    <TableRow>
-      {/* Column 1: Icon, Coin Name & Shorthand */}
-      <td>
-        <img src={props.image} alt={props.name} />
-        <p>{props.name}</p>
-        <span>&#40; {props.symbol} &#41;</span>
-      </td>
+    <Styles>
+      <div className="grid-row">
+        {/* Section 1: Icon, Coin Name & Shorthand */}
+        <div className="grid-description">
+          <img src={props.image} alt={props.name} />
+          <span>{props.name}</span>
+          <span className="coin-symbol">{props.symbol}</span>
+        </div>
 
-      {/* Column 2: Buy Price */}
-      <td className="text-center">
-        {props.price}
-      </td>
+        {/* Section 2: Buy Price */}
+        <div className="text-center">
+          {props.price}
+        </div>
 
-      {/* Column 3: Price Change (24hr) */}
-      <td className="text-center" >
-        <ColorChange data={props.pricechange24h}>
-          {props.pricechange24h} %
-        </ColorChange>
-      </td>
+        {/* Section 3: Price Change (24hr) */}
+        <div className="text-center" >
+          <ColorChange data={props.pricechange24h}>
+            {props.pricechange24h}&nbsp;%
+          </ColorChange>
+        </div>
 
-      {/* Column 4: Market Cap */}
-      <td className="text-center">
-        {props.mktstatus}
-      </td>
+        {/* Section 4: Market Cap */}
+        <div className="text-center">
+          {props.mktstatus}
+        </div>
 
-      {/* Column 5: Link to Details */}
-      <td>
+        {/* Section 5: Link to Details */}
         <StyledLink 
           className="btn btn-outline-dark"
           to={`/currency/${props.id}`}
         >
           Buy {props.symbol}
         </StyledLink>
-      </td>
-    </TableRow>
+      </div>
+    </Styles>
   )
 }
 

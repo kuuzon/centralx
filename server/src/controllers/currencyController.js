@@ -122,7 +122,7 @@ module.exports = {
   async putCurrencyById(req, res, next){
     try {
       // (a) Validation (JOI) Direct from Form (refactored)
-      console.log(req);
+      console.log(req.files);
 
       // (b) Authorisation (optional)
 

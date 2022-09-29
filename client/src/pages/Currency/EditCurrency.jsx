@@ -43,6 +43,7 @@ const EditCurrency = () => {
   const [fileName, setFileName] = useState('Choose File');
   // File Path of Existing downloadURL (for potential deletion)
   const [filePath, setFilePath] = useState('');
+  const [preview, setPreview] = useState(true);
 
   // Destructure data state nested object properties
   const { id, name, symbol, current_price, price_change_percentage_24h, description, nation, status, image } = currencyData;
@@ -93,10 +94,10 @@ const EditCurrency = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setCurrencyData({
-      ...currencyData, 
-      image: file
+      ...currencyData, image: file
     });
     setFileName(file.name);
+    setPreview(false);
   }
 
   // [3] handleSubmit will control button event
@@ -143,7 +144,7 @@ const EditCurrency = () => {
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
-        <Form.Group className="mb-3">
+        <Form.Group controlId="name" className="mb-3">
           <Form.Label>Central Bank Digital Currency Name</Form.Label>
           <Form.Control 
             type="text" 
@@ -156,7 +157,7 @@ const EditCurrency = () => {
         </Form.Group>
 
         {/* GROUP 2: SYMBOL */}
-        <Form.Group className="mb-3">
+        <Form.Group controlId="symbol" className="mb-3">
           <Form.Label>CBDC Symbol</Form.Label>
           <Form.Control type="text" placeholder="Enter CBDC Symbol Name - only THREE letters" name="symbol" value={symbol} minLength="3" onChange={ handleTextChange } />
         </Form.Group>
@@ -185,19 +186,19 @@ const EditCurrency = () => {
         </Form.Group>
 
         {/* GROUP 4: DESCRIPTION */}
-        <Form.Group className="mb-3">
+        <Form.Group controlId="description" className="mb-3">
           <Form.Label>Description of New CBDC</Form.Label>
           <Form.Control type="text" placeholder="Enter description of CBDC" name="description" value={description} minLength="3" onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 5: NATION */}
-        <Form.Group className="mb-3">
+        <Form.Group controlId="nation" className="mb-3">
           <Form.Label>Nation of Reserve Bank for DC</Form.Label>
           <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} minLength="3" onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 6: CBDC STATUS */}
-        <Form.Group className="mb-3">
+        <Form.Group controlId="status" className="mb-3">
           <Form.Label>CBDC Status</Form.Label>
           <Form.Control 
             as='select'
@@ -211,9 +212,18 @@ const EditCurrency = () => {
           </Form.Control>
         </Form.Group>
 
-        {/* GROUP 7: IMAGE */}
-        <Form.Group className="mb-3">
-          <Form.Label>CBDC Image</Form.Label>
+        {/* GROUP 7A: CONDITIONAL PREVIEW OF IMAGE (File in DB) */}
+        { preview && !loading ? 
+          <div className="text-center mt-2 mb-5">
+            <h6>Current Image: {fileName}</h6>
+            <PreviewImage src={image} alt="preview"/>
+          </div>
+          : null 
+        }
+  
+        {/* GROUP 7B: IMAGE */}
+        <Form.Group controlId="formFile" className="mb-3">
+          <Form.Label>New CBDC Image</Form.Label>
           <Form.Control 
             type="file"
             label={fileName}
@@ -221,15 +231,6 @@ const EditCurrency = () => {
             onChange={ handleFileChange }
           />
         </Form.Group>
-
-        {/* GROUP 7B: CONDITIONAL PREVIEW OF IMAGE (File in DB) */}
-        { image && !loading ? 
-          <div className="text-center mt-2 mb-5">
-            <h6>Current Image:</h6>
-            <PreviewImage src={image} />
-          </div>
-          : null 
-        }
 
         {/* SUBMIT BUTTON */}
         <Button variant="primary" type="submit" className={loading ? "button-gradient-loading btn-block" : "btn-block"} disabled={loading}>
