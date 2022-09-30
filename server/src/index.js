@@ -36,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // File parsing middleware
-app.use(fileUpload());
+app.use(fileUpload({ createParentPath: true }));
 
 // Middlware to track our query performance, status & speed
 app.use(morgan('dev'));

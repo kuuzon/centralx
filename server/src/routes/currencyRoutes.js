@@ -5,6 +5,8 @@ const router = express.Router();
 
 // Import food modules
 const CurrencyPolicy = require('../policies/currencyPolicy');
+const FilePolicy = require('../policies/filePolicy');
+const fileServerUpload = require('../middleware/fileServerUpload');
 const CurrencyController = require('../controllers/currencyController');
 
 // Setup routes within export function
@@ -17,6 +19,10 @@ module.exports = () => {
   // POST Route
   router.post('/', 
     CurrencyPolicy.validateCurrency,
+    FilePolicy.filesPayloadExists,
+    FilePolicy.fileSizeLimiter,
+    FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
+    fileServerUpload,
     CurrencyController.postCurrency
   );
   // GET BY ID Route
@@ -26,6 +32,10 @@ module.exports = () => {
   // UPDATE BY ID Route
   router.put('/:id',
     CurrencyPolicy.validateCurrency,
+    FilePolicy.filesPayloadExists,
+    FilePolicy.fileSizeLimiter,
+    FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
+    fileServerUpload,
     CurrencyController.putCurrencyById
   );
   // DELETE BY ID Route

@@ -14,7 +14,7 @@ module.exports = {
       status: Joi.string().min(3).max(50).required(),
       description: Joi.string().min(3).max(500).required(),
       nation: Joi.string().min(3).max(50).required(),
-      image: Joi.string(),
+      image: Joi.any(),
       filePath: Joi.string()
     });
     

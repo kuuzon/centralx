@@ -1,7 +1,7 @@
 // Import modules
 const { db } = require('../config/db');
 const ApiError = require('../utilities/ApiError');
-const { fileServerUpload, storageBucketUpload, validateFile, getFilePathFromUrl, deleteFileFromBucket } = require('../utilities/fileServices');
+const { storageBucketUpload, getFilePathFromUrl, deleteFileFromBucket } = require('../utilities/bucketServices');
 
 module.exports = {
   // [1] GET Currency (w SORT KEY)
@@ -52,30 +52,21 @@ module.exports = {
   async postCurrency(req, res, next){
     // (a) Validation (JOI) Direct from Form (refactored)
     console.log(req.body);
-    
-    // (b) Authorisation (optional)
+    console.log(req.files);
+    console.log(res.locals);
 
-    // (c) File Validation
-    err = validateFile( req.files, 1000000 );
-    if(err){
-      console.log(err)
-      return next(ApiError.badRequest(`Your image does not meet requirements - ${ err.message }`)); 
-    }
-
-    // (d) File Upload
+    // (b) File Upload to Storage Bucket
     let downloadURL = null;
     try {      
-      // (i) Server-Upload
-      const fileName = fileServerUpload(req.files.image);
-      
-      // (ii) Storage-Upload
-      downloadURL = await storageBucketUpload(fileName);
+      const filename = res.locals.filename;
+      downloadURL = await storageBucketUpload(filename);
+
     } catch(err) {
       return next(ApiError.internal('Internal Server Error: An error occurred in uploading the image to storage', err));
     }
     
     try{
-    // (e) Store the currency document query in variable & call ADD method (NOT using SET())
+    // (c) Store the currency document query in variable & call ADD method (NOT using SET())
       const currencyRef = db.collection('currency');
       const response = await currencyRef.add({
         name: req.body.name,
@@ -87,7 +78,7 @@ module.exports = {
         nation: req.body.nation,
         image: downloadURL
       });
-      console.log('Added Food with ID:', response.id);
+      console.log('Added Currency with ID:', response.id);
       res.send(response.id);
 
     // [500 ERROR] Checks for Errors in our Query - issue with route or DB query
@@ -122,32 +113,21 @@ module.exports = {
   async putCurrencyById(req, res, next){
     try {
       // (a) Validation (JOI) Direct from Form (refactored)
+      console.log(req.body);
       console.log(req.files);
+      console.log(res.locals);
 
-      // (b) Authorisation (optional)
-
-      // (c) File Upload
+      // (b1) File Upload to Storage Bucket
       let downloadURL = null;
       // IMAGE CHANGED: If the image is updated, a new file will be saved under req.files
       // NOTE: We will call standard file uploader + we will ALSO need to delete the OLD image URL from the storage location (if there is one)!
       if (req.files){
-        // (i) File Validation
-        err = validateFile( req.files, 1000000 );
-        if(err){
-          console.log(err)
-          return next(ApiError.badRequest(`Your image does not meet requirements - ${ err.message }`)); 
-        }
-
-        // (ii) File Upload
         try {      
-          // Server-Upload
-          console.log(`Updating image in DB`);
-          const fileName = fileServerUpload(req.files.image);
+          // (i) Storage-Upload
+          const filename = res.locals.filename;
+          downloadURL = await storageBucketUpload(filename);
 
-          // Storage-Upload
-          downloadURL = await storageBucketUpload(fileName);
-
-          // (iii) Delete OLD image version in Storage Bucket, if it exists
+          // (ii) Delete OLD image version in Storage Bucket, if it exists
           if (req.body.filePath) {
             console.log(`Deleting old image in storage: ${req.body.filePath}...`);
             const bucketResponse = await deleteFileFromBucket(req.body.filePath);
@@ -157,7 +137,7 @@ module.exports = {
           return next(ApiError.internal('Internal Server Error: An error occurred in uploading the new image to storage', err));
         }
 
-      // IMAGE NOT CHANGED: We just pass back the current downloadURL and pass that back to the database, unchanged!
+      // (b2) IMAGE NOT CHANGED: We just pass back the current downloadURL and pass that back to the database, unchanged!
       } else {
         console.log(`No change to image in DB`);
         downloadURL = req.body.image;

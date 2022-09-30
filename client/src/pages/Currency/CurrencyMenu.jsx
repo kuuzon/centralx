@@ -60,7 +60,7 @@ const CurrencyMenu = () => {
       <Link to="/currency/add">Add Currency</Link>
 
       {/* Currency Menu */}
-      {data.length > 0 && <MenuList title="Reserve Bank Digital Currencies (RBDCs)" coins={data} />}
+      {data.length > 0 && <MenuList title="Digital Currencies (RBDCs)" coins={data} />}
     </Container>
   )
 }

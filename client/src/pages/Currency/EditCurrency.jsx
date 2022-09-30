@@ -215,7 +215,7 @@ const EditCurrency = () => {
         {/* GROUP 7A: CONDITIONAL PREVIEW OF IMAGE (File in DB) */}
         { preview && !loading ? 
           <div className="text-center mt-2 mb-5">
-            <h6>Current Image: {fileName}</h6>
+            <h6>Current Image</h6>
             <PreviewImage src={image} alt="preview"/>
           </div>
           : null 
