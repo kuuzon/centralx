@@ -1,21 +1,23 @@
 import React from 'react';
-
-// Import npm packages
-import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const StyledButton = styled(Button)`
-  width: 100%;
+const StyledLink = styled(Link)`
   border-radius: 1rem;
   border: 2px solid var(--brand);
   transition: all 0.2s;
+  padding: 0.4rem 1rem;
+  text-decoration: none;
+  margin: 0 0.4rem;
+  text-align: center;
 
-  font-size: ${props => props.navbar ? "0.9em" : "1em"};  
+  font-size: ${props => props.navbar ? "0.9em" : "1em"};
   
   background: ${props => props.outline ? "var(--primary)" : "var(--brand)"};
   color: ${props => props.outline ? "var(--brand)" : "var(--primary)"};
 
   &:hover, &:active, &:focus {
+    color: var(--primary);
     background-color: var(--brand-dark);
     border: 2px solid var(--brand-dark);
     transform: scale(1.02);
@@ -23,19 +25,16 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const CXButton = ({ children, loadingState, onClick, outline, navbar }) => {
+const CXNavLink = ({ to, children, outline, navbar }) => {
   return (
-    <StyledButton 
-      type={onClick ? "button" : "submit"} 
-      onClick={onClick}
-      className={loadingState && "button-gradient-loading"}
-      disabled={loadingState}
+    <StyledLink 
+      to={to}
       outline={outline}
       navbar={navbar}
-    >      
+    >
       {children}
-    </StyledButton>
+    </StyledLink>
   )
 }
 
-export default CXButton
+export default CXNavLink

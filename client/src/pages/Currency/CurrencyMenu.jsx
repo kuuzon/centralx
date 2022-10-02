@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 // Import npm packages
-import { Link } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import CXNavLink from '../../components/common/CXNavLink';
 
 // Import child components
 import currencyService from '../../services/currencyService';
@@ -56,8 +56,13 @@ const CurrencyMenu = () => {
   // DEFAULT LOAD: SUCCESS API CALL
   return (
     <Container>
-      <p>Currencies</p>
-      <Link to="/currency/add">Add Currency</Link>
+      <h1>Digital Currencies Information</h1>
+      <p>CentralX is bridging the gap between physical and digital fiat currencies - join the new age and grasp your national currency in your digital wallet, today!</p>
+
+      {/* ADMIN SECTION: AUTHORISATION REQUIRED */}
+      <div className="admin-section text-center mt-4">
+        <CXNavLink to="/currency/add">Add Currency</CXNavLink>
+      </div>
 
       {/* Currency Menu */}
       {data.length > 0 && <MenuList title="Digital Currencies (RBDCs)" coins={data} />}

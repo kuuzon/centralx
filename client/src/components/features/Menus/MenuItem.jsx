@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import CXNavLink from '../../common/CXNavLink';
 
 const Styles = styled.div`
   .grid-row {
@@ -19,7 +19,7 @@ const Styles = styled.div`
       transform: scale(1.008);
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       cursor: pointer;
-      background-color: var(--brand-dark);
+      background-color: var(--brand-light);
       color: var(--primary);
     }
     
@@ -44,11 +44,11 @@ const Styles = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)`
-  margin: 0 2rem;
-  min-width: 100px;
-  font-size: 0.9rem;
-`;
+// const StyledLink = styled(Link)`
+//   margin: 0 2rem;
+//   min-width: 100px;
+//   font-size: 0.9rem;
+// `;
 
 const ColorChange = styled.div`
   color: ${
@@ -85,12 +85,12 @@ const MenuItem = (props) => {
         </div>
 
         {/* Section 5: Link to Details */}
-        <StyledLink 
-          className="btn btn-outline-dark"
+        <CXNavLink 
           to={`/currency/${props.id}`}
+          outline
         >
           Buy {props.symbol}
-        </StyledLink>
+        </CXNavLink>
       </div>
     </Styles>
   )

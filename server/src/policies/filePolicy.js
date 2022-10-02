@@ -43,7 +43,7 @@ const fileExtLimiter = (allowedExtArray) => {
       }
     }
 
-    next()
+    next();
   }
 }
 

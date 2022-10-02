@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from 'react-bootstrap/Button';
+import CXNavLink from './CXNavLink';
 
 const Styles = styled.div`
   margin-top: 20px;
@@ -18,8 +18,8 @@ const HeroBox = ({ title, content, button }) => {
       <h1>{title}</h1>
       <p>{content}</p>
       { button && (
-        <div>
-          <Button variant="dark">{button}</Button>
+        <div className="mt-4">
+          <CXNavLink to={"/crypto/prices"}>{button}</CXNavLink>
         </div>
       )}
     </Styles>

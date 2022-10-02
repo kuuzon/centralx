@@ -56,8 +56,8 @@ function App() {
 export default App;
 
 // ISSUES
-// - name of preview image no longer works due to image input change + need to hide the preview on change
-// - fileServices.js cannot find the file to upload half the time (ENOENT error) - either some sort of race condition issue or relative directory issue
+// - name of preview image no longer works due to image input change
+// - fileServices.js cannot find the file to upload half the time (ENOENT error) - race condition issue, now inconsistent on PUT.  fileServerUpload.js needs to execute FIRST then rest (very close)
 
 // TO DOS
 // - Create startup README.md for WHOLE application (incl. reworking .ENV)

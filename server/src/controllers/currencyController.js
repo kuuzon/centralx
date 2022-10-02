@@ -117,6 +117,8 @@ module.exports = {
       console.log(req.files);
       console.log(res.locals);
 
+      // setTimeout(console.log("waiting..."), 2000);
+
       // (b1) File Upload to Storage Bucket
       let downloadURL = null;
       // IMAGE CHANGED: If the image is updated, a new file will be saved under req.files

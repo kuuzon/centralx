@@ -15,14 +15,15 @@
   --highlight-super-dark: #4b5563;
   
   /* TAILWIND: INDIGO 600-700 */
+  --brand-light: #6366f1;
   --brand: #4f46e5; 
   --brand-dark: #3730a3;
 
   /* TAILWIND: GREEN 600 */
-  --success: #16a34a; 
+  --success: #22c55e; 
 
   /* TAILWIND: RED 600 */
-  --error: #dc2626; 
+  --error: #f87171; 
 }
 
 body {
@@ -30,11 +31,12 @@ body {
   color: var(--complementary);
   background: white;
   box-sizing: border-box;
+  margin-top: 4rem;
 }
 
 /* Flex Box App Structure */
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 92vh;
 }

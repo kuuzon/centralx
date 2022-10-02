@@ -10,9 +10,11 @@ import styled from 'styled-components';
 // Import custom modules
 import useAuth from '../../hooks/useAuth';
 import CXButton from '../../components/common/CXButton';
+import CXNavLink from '../common/CXNavLink';
 
 const StyledNavbar = styled(Navbar)`
   background-color: var(--primary);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;   /* ATTACH TO SCROLL EVENT */
 `;
 
 const StyledLogo = styled(RiExchangeFundsLine)`
@@ -30,7 +32,7 @@ const Header = () => {
   const { user, logout } = useAuth();
 
   return (
-    <StyledNavbar variant="light" expand="lg">
+    <StyledNavbar variant="light" expand="lg" fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/">
           <StyledLogo />
@@ -47,10 +49,10 @@ const Header = () => {
           </Nav>
           {/* AUTH NAVLINKS */}
           <Nav>
-            {!user && <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>}
-            {!user && <Nav.Link as={Link} to="/login">Log In</Nav.Link>}
-            {user && <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>}
-            {user && <CXButton onClick={() => { logout() }}>Logout</CXButton>}
+            {!user && <CXNavLink to="/signup" navbar>Sign Up</CXNavLink>}
+            {!user && <CXNavLink to="/login" outline navbar>Log In</CXNavLink>}
+            {user && <CXNavLink as={Link} to="/dashboard" navbar>Dashboard</CXNavLink>}
+            {user && <CXButton onClick={() => { logout() }} outline navbar>Logout</CXButton>}
           </Nav>
         </Navbar.Collapse>
       </Container>

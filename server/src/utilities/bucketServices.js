@@ -15,6 +15,22 @@ module.exports = {
     // Declare the "filepath" & "options" parameters, which allows customisaton of bucket upload
     const serverFilePath = `./public/uploads/${filename}`;
 
+    // Synchronous 
+    if (!fs.existsSync(serverFilePath)) {
+      console.log("Awaiting Server File Upload ..."); 
+    }
+
+    // const verifyDownload = async () => new Promise((resolve, reject) => {
+    //   fs.watchFile(serverFilePath, (curr, prev) => {
+    //       if (fs.existsSync(serverFilePath)) {
+    //           fs.unwatchFile(serverFilePath);
+    //           resolve(true);
+    //       }
+    //    });
+    // });
+  
+    // await verifyDownload().ok("Could not download", { timeout: 30000 });
+
     const options = {
       destination: filename,
       resumable: true,
