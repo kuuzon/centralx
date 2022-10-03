@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Import modules
-import { Container, Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup, FloatingLabel, Button } from 'react-bootstrap';
 
 // Import custom modules
 import currencyService from '../../services/currencyService';
@@ -130,7 +130,7 @@ const AddCurrency = () => {
         {/* GROUP 5: DESCRIPTION */}
         <Form.Group className="mb-3">
           <Form.Label>Description of New CBDC</Form.Label>
-          <Form.Control type="text" placeholder="Enter description of CBDC" name="description" value={description} minLength="3" onChange={ handleTextChange } />
+          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} minLength="3" onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 6: NATION */}

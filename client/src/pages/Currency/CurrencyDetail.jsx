@@ -1,24 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Import modules
 import styled from 'styled-components';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Accordion } from 'react-bootstrap';
 
 // Import custom components
 import useAuth from '../../hooks/useAuth';
 import currencyService from '../../services/currencyService';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
-// import HeroBox from '../../components/common/HeroBox';
+import CXButton from '../../components/common/CXButton';
+import CXNavLink from '../../components/common/CXNavLink';
 
-const HeroBox = styled.div`
-  padding: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
-  background-color: #343a40;
-  color: white;
-  border-radius: 1rem 1rem 1rem 1rem;
+const Styles = styled.div`
+  .lead-heading {
+    text-align: center;
+    
+      .title {
+        font-size: 4em;
+        font-weight: 700;
+        margin-right: 0.8rem;
+        color: var(--complementary);
+      }
+    
+      .title-symbol {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: var(--brand);
+      }
+  }
+
+  .admin-box {
+    margin: 4rem 0;
+
+    .grid-row {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+    }
+  }
+
+  .overview-box {
+    padding: 6rem;
+    margin: 4rem 0rem;
+    background-color: var(--highlight-light);
+    color: var(--complementary);
+
+    .col > .container {
+      background: var(--primary);
+      border-radius: 5px;
+      padding: 2rem;
+    }  
+  }
+  
+  .description-section {
+    text-align: center;
+    margin: 4rem auto;
+    max-width: 70vw;
+
+    .title {
+      font-size: 2.5em;
+      font-weight: 500;
+      color: var(--complementary);
+    }
+
+    p {
+      margin-top: 2rem;
+      font-size: 1.2em;
+    }
+  }
+`;
+
+const PreviewImage = styled.img`
+  margin-top: 1rem;
+  width: 250px;
+  padding: 1rem;
+  border: 5px solid var(--brand);
+  border-radius: 50%;
 `;
 
 const CurrencyDetail = ( props ) => {
@@ -113,68 +173,83 @@ const CurrencyDetail = ( props ) => {
 
   // DEFAULT LOAD: SUCCESS PRE-POPULATION API CALL
   return (
-    <Container>
-      <div className="title-header text-center mt-4 mb-4">
-        <h2>{name}</h2>
-      </div>
+    <Styles>
+      <Container>
+        {/* HEADING SECTION */}
+        <div className="lead-heading">
+          <span className="title">{name}</span>
+          <span className="title-symbol">{symbol}</span>
+        </div>
 
-      {/* CONTAINER 1: CURRENCY DESCRIPTION */}
-      <HeroBox>
+        {/* ICON IMAGE SECTION */}
+        <div className="text-center">
+          {image && <PreviewImage src={image} alt="preview"/>}
+        </div>
+
+        {/* HIDDEN - ADMIN DROPDOWN SECTION*/}
+        { user && <div className="admin-box">
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Admin Functions</Accordion.Header>
+              <Accordion.Body>
+                <Container>
+                  <div className="p-2">
+                    <p>Please navigate to the desired page to alter {name} item on the server</p>
+                  </div>
+                  <div className="grid-row">
+                    {/* EDIT LINK */}
+                    <CXNavLink to={`/currency/edit/${id}`} outline>Edit</CXNavLink>
+
+                    {/* DELETE BUTTON */}
+                    <CXButton onClick={handleDeleteClick} loadingState={loading}>{loading ? '...' : 'Delete'}</CXButton>
+                  </div>
+                </Container>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+          </div>}
+      </Container>
+
+      {/* OVERVIEW SECTION */}
+      <div className="overview-box">
         <Container>
           <Row>
             <Col>
-              <h2>{name}</h2>
-              <p>{description}</p>
+              <Container>
+                <h2>Current Price</h2>
+                <p>{current_price}</p>
+              </Container>
             </Col>
             <Col>
-              {image ? 
-                <img className="image-splash" src={image} alt={name}></img> 
-                :
-                <p>
-                  No Image Uploaded - Edit Image Here: 
-                  <Link to={`/currency/edit/${id}`}>{name}</Link>
-                </p>
-              }
+              <Container>
+                <h2>Price Change</h2>
+                <p>{price_change_percentage_24h}</p>
+              </Container>
+            </Col>
+            <Col>
+              <Container>
+                <h2>Trading Status</h2>
+                <p>{status}</p>
+              </Container>
+            </Col>
+            <Col>
+              <Container>
+                <h2>Nation Currency</h2>
+                <p>{nation}</p>
+              </Container>
             </Col>
           </Row>
         </Container>
-      </HeroBox>
+      </div>
 
-      {/* CONTAINER 3: Admin Buttons*/}
-      { user ? 
-        <HeroBox>
-          <Container>
-            <Row>
-              <Col>
-                <h4>Admin Functions</h4>
-                <p>Please navigate to the desired page to alter {name} item on the server and database.</p>
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              {/* EDIT BUTTON */}
-              <Col>
-                <Button className="w-100" as={Link} to={`/currency/edit/${id}`} variant="primary">Edit</Button>
-              </Col>
-
-              {/* DELETE BUTTON */}
-              <Col>
-                <Button 
-                  variant="danger" 
-                  className={loading ? "button-gradient-loading btn-block" : "btn-block"}
-                  disabled={loading}
-                  onClick={ handleDeleteClick }
-                >
-                  {loading 
-                    ? '...'
-                    : 'Delete'
-                  }
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </HeroBox>
-      : null }
-    </Container>
+      {/* DESCRIPTION SECTION */}
+      <Container>
+        <div className="description-section">
+          <span className="title">Information on {name}</span>
+          <p>{description}</p>
+        </div>
+      </Container>
+    </Styles>
   )
 }
 

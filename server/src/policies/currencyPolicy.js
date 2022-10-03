@@ -12,7 +12,7 @@ module.exports = {
       current_price: Joi.number().required(),
       price_change_percentage_24h: Joi.number().required(),
       status: Joi.string().min(3).max(50).required(),
-      description: Joi.string().min(3).max(500).required(),
+      description: Joi.string().min(3).max(2000).required(),
       nation: Joi.string().min(3).max(50).required(),
       image: Joi.any(),
       filePath: Joi.string()
