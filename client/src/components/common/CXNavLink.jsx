@@ -12,7 +12,6 @@ const StyledLink = styled(Link)`
   text-align: center;
 
   font-size: ${props => props.navbar ? "0.9em" : "1em"};
-  
   background: ${props => props.outline ? "var(--primary)" : "var(--brand)"};
   color: ${props => props.outline ? "var(--brand)" : "var(--primary)"};
 
@@ -29,8 +28,9 @@ const CXNavLink = ({ to, children, outline, navbar }) => {
   return (
     <StyledLink 
       to={to}
-      outline={outline}
-      navbar={navbar}
+      // HTML CONTROL: Below needs to evaluate to a number of 1 or 0.  Otherwise, evaluates to a "string" of "true" or "false", which causes an error when read to the DOM.
+      outline={outline ? 1 : 0}
+      navbar={navbar ? 1 : 0}
     >
       {children}
     </StyledLink>

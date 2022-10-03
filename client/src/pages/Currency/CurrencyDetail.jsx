@@ -10,6 +10,7 @@ import useAuth from '../../hooks/useAuth';
 import currencyService from '../../services/currencyService';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
+// import HeroBox from '../../components/common/HeroBox';
 
 const HeroBox = styled.div`
   padding: 2rem;

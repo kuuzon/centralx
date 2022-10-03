@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Import npm packages
 import { Container } from 'react-bootstrap';
@@ -20,10 +20,22 @@ const CurrencyMenu = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // HOOK: Prevention of useEffect calling TWICE (React v18)
+  const effectRan = useRef(false);
+
   // HOOK: ON-LOAD SIDE EFFECTS
   useEffect(() => {
-    fetchCurrency();
-    setLoading(false);
+    console.log("Effect Ran");
+    if (effectRan.current === false) {
+      fetchCurrency();
+      setLoading(false);
+
+      // CLEAN UP FUNCTION
+      return () => {
+        console.log("Unmounted");
+        effectRan.current = true;
+      }
+    }
   }, []);
 
   // COMPONENT FUNCTIONS

@@ -11,7 +11,6 @@ const StyledButton = styled(Button)`
   transition: all 0.2s;
 
   font-size: ${props => props.navbar ? "0.9em" : "1em"};  
-  
   background: ${props => props.outline ? "var(--primary)" : "var(--brand)"};
   color: ${props => props.outline ? "var(--brand)" : "var(--primary)"};
 
@@ -29,9 +28,9 @@ const CXButton = ({ children, loadingState, onClick, outline, navbar }) => {
       type={onClick ? "button" : "submit"} 
       onClick={onClick}
       className={loadingState && "button-gradient-loading"}
-      disabled={loadingState}
-      outline={outline}
-      navbar={navbar}
+      disabled={loadingState ? 1 : 0}
+      outline={outline ? 1 : 0}
+      navbar={navbar ? 1 : 0}
     >      
       {children}
     </StyledButton>

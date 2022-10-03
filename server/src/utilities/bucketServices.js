@@ -15,6 +15,7 @@ module.exports = {
     // Declare the "filepath" & "options" parameters, which allows customisaton of bucket upload
     const serverFilePath = `./public/uploads/${filename}`;
     // File-Checker: Checks to see if file has been uploaded to server correctly before uploading
+    // DOCS: https://nodejs.org/api/fs.html#fsaccesspath-mode-callback
     fs.access(serverFilePath, fs.F_OK, (err) => {
       if (err) {
         console.error(err);

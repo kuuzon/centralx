@@ -12,9 +12,9 @@ const Styles = styled.div`
     border: 0.1rem solid var(--highlight-light);
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-    padding: 1rem;
+    padding: 1rem 2rem;
     transition: all 0.3s ease;
-  
+
     &:hover {
       transform: scale(1.008);
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -22,14 +22,13 @@ const Styles = styled.div`
       background-color: var(--brand-light);
       color: var(--primary);
     }
-    
+
     .grid-description {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.8rem;
       align-items: center;
       justify-content: space-around;
-      padding-left: 1rem;
   
       img {
         max-width: 60px;
@@ -43,12 +42,6 @@ const Styles = styled.div`
     }
   }
 `;
-
-// const StyledLink = styled(Link)`
-//   margin: 0 2rem;
-//   min-width: 100px;
-//   font-size: 0.9rem;
-// `;
 
 const ColorChange = styled.div`
   color: ${
