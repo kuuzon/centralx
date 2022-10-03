@@ -17,17 +17,22 @@ const fileServerUpload = (req, res, next) => {
       '../../public/uploads/', 
       filename);
     
-    // [4] MOVE FILE TO SERVER STORAGE
-    file.mv(uploadPath, (err) => {
-      if (err) return next(ApiError.internal('Your request could not be processed at this time', err));
+    // [4] MOVE FILE TO SERVER STORAGE ("mv" function returns a PROMISE)
+    file
+    .mv(uploadPath)
+    .then(() => {
+      // [5] SET FILENAME VARIABLE ON REQ OBJECT & PASS TO NEXT MIDDLEWARE
+      console.log(`Server Upload Successful: ${uploadPath}`);
+      res.locals.filename = filename;
+      next();
     })
-  
-    // [5] SET FILENAME VARIABLE ON REQ OBJECT & PASS TO NEXT MIDDLEWARE
-    console.log(`Server Upload Successful: ${uploadPath}`);
-    res.locals.filename = filename;
+    .catch(err => {
+      console.log(err);
+      if (err) return next(ApiError.internal('Your request could not be processed at this time', err));
+    });
+  } else {
+    next();
   }
-
-  next();
 }
 
 module.exports = fileServerUpload;

@@ -3,34 +3,30 @@ const { bucket } = require('../config/db');
 const uuid = require('uuid');
 const fs = require('fs');
 const config = require("../config/config");
+const ApiError = require('../utilities/ApiError');
 
 // FUNCTIONS: File Uploading & Validation
 module.exports = {
   async storageBucketUpload(filename) {
     console.log(`Firestore File Name: ${filename}`);
-
     // Generate random token (uuid) & store in variable to be passed into custom image bucket url 
     const storageToken = uuid.v4();
 
     // Declare the "filepath" & "options" parameters, which allows customisaton of bucket upload
     const serverFilePath = `./public/uploads/${filename}`;
+    // File-Checker: Checks to see if file has been uploaded to server correctly before uploading
+    fs.access(serverFilePath, fs.F_OK, (err) => {
+      if (err) {
+        console.error(err);
+        return({
+          message: 'Error occurred in storing file to server'
+        });
+      } else {
+        console.log("File Successfully Stored in Server");
+      }
+    });
 
-    // Synchronous 
-    if (!fs.existsSync(serverFilePath)) {
-      console.log("Awaiting Server File Upload ..."); 
-    }
-
-    // const verifyDownload = async () => new Promise((resolve, reject) => {
-    //   fs.watchFile(serverFilePath, (curr, prev) => {
-    //       if (fs.existsSync(serverFilePath)) {
-    //           fs.unwatchFile(serverFilePath);
-    //           resolve(true);
-    //       }
-    //    });
-    // });
-  
-    // await verifyDownload().ok("Could not download", { timeout: 30000 });
-
+    // Declare options for the upload to Cloud Firestore Storage Bucket
     const options = {
       destination: filename,
       resumable: true,

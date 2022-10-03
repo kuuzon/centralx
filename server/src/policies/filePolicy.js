@@ -12,7 +12,7 @@ const filesPayloadExists = (req, res, next) => {
 
 // [2] VALIDATION: Check if file size exceeds set size
 const fileSizeLimiter = (req, res, next) => {
-  const MB = 5;   // 5MB
+  const MB = 100;   // 5MB
   const FILE_SIZE_LIMIT = MB * 1024 * 1024;
 
   if(req.files){
@@ -24,7 +24,6 @@ const fileSizeLimiter = (req, res, next) => {
       return next(ApiError.tooLarge(message)); 
     }
   }
-
   next();
 }
 

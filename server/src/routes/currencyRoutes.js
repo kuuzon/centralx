@@ -18,11 +18,11 @@ module.exports = () => {
   );
   // POST Route
   router.post('/', 
-    CurrencyPolicy.validateCurrency,
+    [CurrencyPolicy.validateCurrency,
     FilePolicy.filesPayloadExists,
     FilePolicy.fileSizeLimiter,
     FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
-    fileServerUpload,
+    fileServerUpload],
     CurrencyController.postCurrency
   );
   // GET BY ID Route
@@ -31,11 +31,11 @@ module.exports = () => {
   );
   // UPDATE BY ID Route
   router.put('/:id',
-    CurrencyPolicy.validateCurrency,
+    [CurrencyPolicy.validateCurrency,
     FilePolicy.filesPayloadExists,
     FilePolicy.fileSizeLimiter,
     FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
-    fileServerUpload,
+    fileServerUpload],
     CurrencyController.putCurrencyById
   );
   // DELETE BY ID Route

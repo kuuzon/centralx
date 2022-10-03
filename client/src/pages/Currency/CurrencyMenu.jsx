@@ -5,12 +5,16 @@ import { Container } from 'react-bootstrap';
 import CXNavLink from '../../components/common/CXNavLink';
 
 // Import child components
+import useAuth from '../../hooks/useAuth';
 import currencyService from '../../services/currencyService';
 import MenuList from '../../components/features/Menus/MenuList';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
 
 const CurrencyMenu = () => {
+  // HOOK: CONTEXT FOR AUTH
+  const { user } = useAuth();
+
   // HOOK: SETTING COMPONENT STATE (& init values)
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,9 +64,9 @@ const CurrencyMenu = () => {
       <p>CentralX is bridging the gap between physical and digital fiat currencies - join the new age and grasp your national currency in your digital wallet, today!</p>
 
       {/* ADMIN SECTION: AUTHORISATION REQUIRED */}
-      <div className="admin-section text-center mt-4">
+      { user && <div className="admin-section text-center mt-4">
         <CXNavLink to="/currency/add">Add Currency</CXNavLink>
-      </div>
+      </div>}
 
       {/* Currency Menu */}
       {data.length > 0 && <MenuList title="Digital Currencies (RBDCs)" coins={data} />}
