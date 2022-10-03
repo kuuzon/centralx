@@ -61,7 +61,7 @@ export default App;
 
 // TO DOS
 // - Create startup README.md for WHOLE application (incl. reworking .ENV)
-// - Refactor CSS into reusable components (`CXNavLink`, `StyledLabel`, `StyledInput` and `UserNav`)
+// - Refactor CSS into reusable components (`StyledLabel`, `StyledInput` and `UserNav`)
 
 // OPTIONAL TODOS
 // - Refactor login/register forms into reusable components
