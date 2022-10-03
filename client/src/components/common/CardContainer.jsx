@@ -18,8 +18,9 @@ const Styles = styled.div`
     background-color: var(--primary);
     border-radius: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    min-width: 450px;
     text-align: center;
+
+    min-width: ${props => props.authform ? "30vw" : "60vw"};
   }
 
   .lead-card .card-title {
@@ -30,17 +31,17 @@ const Styles = styled.div`
   }
 `;
 
-const AuthCard = ( props ) => (
-  <Styles> 
+const CardContainer = ({title, authform, children}) => (
+  <Styles authform={authform ? 1 : 0}> 
     <Container>
       <div className="lead-card">
-        <p className="card-title">{props.title}</p>
+        <p className="card-title">{title}</p>
         <div>
-          {props.children}
+          {children}
         </div>
       </div>
     </Container>
   </Styles>
 );
 
-export default AuthCard
+export default CardContainer

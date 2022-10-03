@@ -52,6 +52,19 @@ const Styles = styled.div`
       background: var(--primary);
       border-radius: 5px;
       padding: 2rem;
+      text-align: center;
+
+      p {
+        margin-top: 2rem;
+        font-size: 2em;
+        font-weight: 600;
+        color: var(--brand);
+
+        span {
+        font-size: 0.6em; 
+        color: var(--complementary)
+      }
+      }
     }  
   }
   
@@ -132,7 +145,7 @@ const CurrencyDetail = ( props ) => {
     fetchCurrency();
   }, [id]);
 
-  // FORM FUNCTIONS
+  // FUNCTIONS
   // [1] handleDeleteClick
   const handleDeleteClick = async (e) => {
     e.preventDefault();
@@ -151,6 +164,18 @@ const CurrencyDetail = ( props ) => {
       setError(true);
       window.scroll({top: 0, left: 0, behavior: 'smooth' });
     }
+  }
+
+  // [2] TEXT-STANDARDISER
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  // [3] NUMBER STANDARDISER
+  function numSeparator(number) {
+    let str = number.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return  "$" + str.join(".");
   }
 
   // CONDITIONAL LOAD: ERROR
@@ -216,26 +241,26 @@ const CurrencyDetail = ( props ) => {
           <Row>
             <Col>
               <Container>
-                <h2>Current Price</h2>
-                <p>{current_price}</p>
+                <h3>Current Price</h3>
+                <p>{numSeparator(current_price)} <span>AUD</span></p>
               </Container>
             </Col>
             <Col>
               <Container>
-                <h2>Price Change</h2>
-                <p>{price_change_percentage_24h}</p>
+                <h3>Price Change</h3>
+                <p>{price_change_percentage_24h} %</p>
               </Container>
             </Col>
             <Col>
               <Container>
-                <h2>Trading Status</h2>
-                <p>{status}</p>
+                <h3>Trading Status</h3>
+                <p>{capitalizeFirstLetter(status)}</p>
               </Container>
             </Col>
             <Col>
               <Container>
-                <h2>Nation Currency</h2>
-                <p>{nation}</p>
+                <h3>Nation Currency</h3>
+                <p>{capitalizeFirstLetter(nation)}</p>
               </Container>
             </Col>
           </Row>

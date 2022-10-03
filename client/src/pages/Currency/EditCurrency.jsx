@@ -3,12 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 // Import modules
 import styled from 'styled-components';
-import { Container, Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup } from 'react-bootstrap';
 
 // Import custom modules
 import currencyService from '../../services/currencyService';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
+import CXButton from '../../components/common/CXButton';
+import CardContainer from '../../components/common/CardContainer';
 
 // Custom Styles
 const PreviewImage = styled.img`
@@ -138,9 +140,7 @@ const EditCurrency = () => {
 
   // DEFAULT LOAD: SUCCESS PRE-POPULATION API CALL
   return (
-    <Container>
-      <h2>Edit Currency: {name}</h2>
-
+    <CardContainer title={`Edit Currency: ${name}`}>
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
@@ -233,11 +233,11 @@ const EditCurrency = () => {
         </Form.Group>
 
         {/* SUBMIT BUTTON */}
-        <Button variant="primary" type="submit" className={loading ? "button-gradient-loading btn-block" : "btn-block"} disabled={loading}>
+        <CXButton loadingState={loading}>
           {loading ? '...' : 'Submit'}
-        </Button>
+        </CXButton>
       </Form>
-    </Container>
+    </CardContainer>
   )
 }
 

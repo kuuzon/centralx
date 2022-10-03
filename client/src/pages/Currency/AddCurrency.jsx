@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Import modules
-import { Container, Row, Col, Form, InputGroup, FloatingLabel, Button } from 'react-bootstrap';
+import { Row, Col, Form, InputGroup } from 'react-bootstrap';
 
 // Import custom modules
 import currencyService from '../../services/currencyService';
+import CXButton from '../../components/common/CXButton';
+import CardContainer from '../../components/common/CardContainer';
 
 const AddCurrency = () => {
   // HOOK: SETTING COMPONENT STATE (& init values)
@@ -65,9 +67,7 @@ const AddCurrency = () => {
   };
 
   return (
-    <Container>
-      <h2>Add Currency</h2>
-
+    <CardContainer title="Add Currency">
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
@@ -151,11 +151,11 @@ const AddCurrency = () => {
         </Form.Group>
 
         {/* SUBMIT BUTTON */}
-        <Button variant="primary" type="submit" className={loading ? "button-gradient-loading btn-block" : "btn-block"} disabled={loading}>
+        <CXButton loadingState={loading}>
           {loading ? '...' : 'Submit'}
-        </Button>
+        </CXButton>
       </Form>
-    </Container>
+    </CardContainer>
   )
 }
 
