@@ -28,6 +28,7 @@
     "test": "node src/index",
     "server": "nodemon src/index",
     "debug": "DEBUG=app* nodemon src/index",
+    "debugpc": "DEBUG=app* & nodemon src/index",
     "client": "cd ../ && npm start --prefix client",
     "dev": "concurrently -k \"yarn debug\" \"yarn client\"",
     "prod": "concurrently -k \"yarn server\" \"yarn client\""

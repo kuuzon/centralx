@@ -32,7 +32,7 @@ const Header = () => {
   const { user, logout } = useAuth();
 
   return (
-    <StyledNavbar variant="light" expand="lg" fixed="top">
+    <StyledNavbar variant="light" expand="lg" sticky="top" >
       <Container>
         <Navbar.Brand as={Link} to="/">
           <StyledLogo />
