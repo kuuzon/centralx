@@ -59,3 +59,5 @@ export default App;
 // - Create startup README.md for WHOLE application (incl. reworking .ENV)
 // - Refactor CSS into reusable components (`StyledLabel`, `StyledInput` and `UserNav`) AND/OR login/register forms into reusable components
 // - Auth middleware to only allow write requests for token/admin users
+// - TypeScript on backend (Node:TS)
+// - Dark mode setup with Styled Components
