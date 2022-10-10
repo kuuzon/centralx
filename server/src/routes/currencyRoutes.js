@@ -3,7 +3,7 @@
 const express = require('express'); 
 const router = express.Router();
 
-// Import food modules
+// Import modules
 const CurrencyPolicy = require('../policies/currencyPolicy');
 const FilePolicy = require('../policies/filePolicy');
 const fileServerUpload = require('../middleware/fileServerUpload');

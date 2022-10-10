@@ -29,7 +29,7 @@
 body {
   font-family: 'Barlow', sans-serif;
   color: var(--complementary);
-  background: white;
+  background: var(--primary);
   box-sizing: border-box;
 }
 

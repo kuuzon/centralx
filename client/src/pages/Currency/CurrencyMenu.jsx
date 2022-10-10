@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useAuth from '../../hooks/useAuth';
 
 // Import npm packages
 import { Container } from 'react-bootstrap';
 import CXNavLink from '../../components/common/CXNavLink';
 
-// Import child components
-import useAuth from '../../hooks/useAuth';
+// Import components
 import currencyService from '../../services/currencyService';
 import MenuList from '../../components/features/Menus/MenuList';
-import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
+import ErrorPage from '../../components/common/ErrorPage';
 
 const CurrencyMenu = () => {
   // HOOK: CONTEXT FOR AUTH

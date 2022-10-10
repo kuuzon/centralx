@@ -7,7 +7,7 @@ module.exports = {
   // [1] GET Currency (w SORT KEY)
   async getCurrency(req, res, next){
     try {
-      // Store the document query in variable & call GET method
+      // Store the collection reference in variable & call GET method
       const currencyRef = db.collection('currency');
 
       // [A] BASE OPTION: All Currencies
@@ -44,7 +44,7 @@ module.exports = {
 
     // [500 ERROR] Checks for Errors in our Query - issue with route or DB query
     } catch(err) {
-      return next(ApiError.internal('Your request could not be processed at this time', err));
+      return next(ApiError.internal('The currencies selected could not be found', err));
     }
   },
 
