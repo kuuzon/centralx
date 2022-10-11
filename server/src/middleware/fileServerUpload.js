@@ -1,15 +1,16 @@
 const ApiError = require('../utilities/ApiError');
 const path = require('path');
+const debugPOST = require('debug')('app:post');
 
 const fileServerUpload = (req, res, next) => {
   if(req.files) {
     // [1] STORE FILE (SINGLE)
     const file = req.files.image;
-    console.log(file);
+    debugPOST(`Image for Server Processing: ${file.name}`);
   
     // [2] APPEND UNIQUE FILENAME EXTENSION
     const filename = Date.now() + '_' + file.name;
-    console.log(`Unique Filename: ${filename}`);
+    debugPOST(`Unique Filename: ${filename}`);
   
     // [3] DECLARE SERVER STORAGE DIRECTORY PATH
     const uploadPath = path.join(
@@ -27,8 +28,7 @@ const fileServerUpload = (req, res, next) => {
       next();
     })
     .catch(err => {
-      console.log(err);
-      if (err) return next(ApiError.internal('Your request could not be processed at this time', err));
+      if (err) return next(ApiError.internal('Your file request could not be processed at this time', err));
     });
   } else {
     next();

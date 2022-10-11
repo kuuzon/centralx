@@ -3,6 +3,9 @@ const { db } = require('../config/db');
 const ApiError = require('../utilities/ApiError');
 const { storageBucketUpload, getFilePathFromUrl, deleteFileFromBucket } = require('../utilities/bucketServices');
 
+// Debug logs
+const debugPOST = require('debug')('app:post');
+
 module.exports = {
   // [1] GET Currency (w SORT KEY)
   async getCurrency(req, res, next){
@@ -51,9 +54,9 @@ module.exports = {
   // [2] POST Currency
   async postCurrency(req, res, next){
     // (a) Validation (JOI) Direct from Form (refactored)
-    console.log(req.body);
-    console.log(req.files);
-    console.log(res.locals);
+    debugPOST(req.body);
+    debugPOST(req.files);
+    debugPOST(res.locals);
 
     // (b) File Upload to Storage Bucket
     let downloadURL = null;
@@ -61,12 +64,13 @@ module.exports = {
       const filename = res.locals.filename;
       downloadURL = await storageBucketUpload(filename);
 
+    // [500 ERROR] Checks for Errors in our File Upload
     } catch(err) {
-      return next(ApiError.internal('Internal Server Error: An error occurred in uploading the image to storage', err));
+      return next(ApiError.internal('An error occurred in uploading the image to storage', err));
     }
     
-    try{
     // (c) Store the currency document query in variable & call ADD method (NOT using SET())
+    try {
       const currencyRef = db.collection('currency');
       const response = await currencyRef.add({
         name: req.body.name,
@@ -78,12 +82,12 @@ module.exports = {
         nation: req.body.nation,
         image: downloadURL
       });
-      console.log('Added Currency with ID:', response.id);
+      console.log(`Added Currency with ID: ${response.id}`);
       res.send(response.id);
 
     // [500 ERROR] Checks for Errors in our Query - issue with route or DB query
     } catch(err) {
-      return next(ApiError.internal('Internal Server Error: Your request could not be processed at this time', err));
+      return next(ApiError.internal('Your request could not be saved at this time', err));
     }
   },
 
@@ -111,41 +115,42 @@ module.exports = {
 
   // [4] PUT Currency BY ID
   async putCurrencyById(req, res, next){
-    try {
-      // (a) Validation (JOI) Direct from Form (refactored)
-      console.log(req.body);
-      console.log(req.files);
-      console.log(res.locals);
+    // (a) Validation (JOI) Direct from Form (refactored)
+    debugPOST(req.body);
+    debugPOST(req.files);
+    debugPOST(res.locals);
 
-      // setTimeout(console.log("waiting..."), 2000);
-
-      // (b1) File Upload to Storage Bucket
-      let downloadURL = null;
-      // IMAGE CHANGED: If the image is updated, a new file will be saved under req.files
-      // NOTE: We will call standard file uploader + we will ALSO need to delete the OLD image URL from the storage location (if there is one)!
+    // (b1) File Upload to Storage Bucket
+    // IMAGE CHANGED: If the image is updated, a new file will be saved under req.files
+    // NOTE: We will call standard file uploader + we will ALSO need to delete the OLD image URL from the storage location (if there is one)
+    let downloadURL = null;
+    try {      
       if (req.files){
-        try {      
-          // (i) Storage-Upload
-          const filename = res.locals.filename;
-          downloadURL = await storageBucketUpload(filename);
+        // (i) Storage-Upload
+        const filename = res.locals.filename;
+        downloadURL = await storageBucketUpload(filename);
 
-          // (ii) Delete OLD image version in Storage Bucket, if it exists
-          if (req.body.filePath) {
-            console.log(`Deleting old image in storage: ${req.body.filePath}...`);
-            const bucketResponse = await deleteFileFromBucket(req.body.filePath);
-          }
-
-        } catch(err) {
-          return next(ApiError.internal('Internal Server Error: An error occurred in uploading the new image to storage', err));
+        // (ii) Delete OLD image version in Storage Bucket, if it exists
+        if (req.body.filePath) {
+          debugPOST(`Deleting old image in storage: ${req.body.filePath}`);
+          const bucketResponse = await deleteFileFromBucket(req.body.filePath);
         }
-
       // (b2) IMAGE NOT CHANGED: We just pass back the current downloadURL and pass that back to the database, unchanged!
-      } else {
+      } else if (req.body.image) {
         console.log(`No change to image in DB`);
         downloadURL = req.body.image;
+        
+      } else {
+        return next(ApiError.badRequest('The file you are trying to upload cannot be edited at this time'));
       }
 
-      // Store the food document query in variable & call UPDATE method for ID
+    // [500 ERROR] Checks for Errors in our File Upload
+    } catch(err) {
+      return next(ApiError.internal('An error occurred in saving the image to storage', err));
+    }
+
+    // (c) Store the currency document query in variable & call UPDATE method for ID
+    try {
       const currencyRef = db.collection('currency').doc(req.params.id);
       const response = await currencyRef.update({
         name: req.body.name,
@@ -197,7 +202,7 @@ module.exports = {
 
     // [500 ERROR] Checks for Errors in our Query - issue with route or DB query
     } catch(err) {
-      return next(ApiError.internal('A server error occurred while deleting the image - please try again later', err));
+      return next(ApiError.internal('Your request could not be saved at this time', err));
     }
   }
 }
