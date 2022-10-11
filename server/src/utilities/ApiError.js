@@ -1,6 +1,4 @@
 // CUSTOM ERROR UTILITY CLASS
-// NOTE: Will set our different error types and attach error codes + stacks if need be (think of it like it organises our errors)
-
 // Import development debug tool
 const debugError500 = require('debug')('app:error500');
 
@@ -13,7 +11,6 @@ class ApiError {
   }
 
   // CLASS METHODS: Custom functions for each type of error we expect
-  // NOTE: Depending on the function, it may take different parameters depending on what we want it to display in browser and/or console
 
   // [400] Bad Request
   // PARAMETERS: We just pass in our custom message & status code is set as part of the function

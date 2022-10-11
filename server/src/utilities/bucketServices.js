@@ -1,33 +1,18 @@
 // Import in modules
 const { bucket } = require('../config/db');
+const debugBucket = require('debug')('app:bucket');
+const config = require("../config/config");
 const uuid = require('uuid');
 const fs = require('fs');
-const config = require("../config/config");
-const ApiError = require('../utilities/ApiError');
 
-// FUNCTIONS: File Uploading & Validation
 module.exports = {
   async storageBucketUpload(filename) {
-    console.log(`Firestore File Name: ${filename}`);
-    // Generate random token (uuid) & store in variable to be passed into custom image bucket url 
+    // 1. GENERATE RANDOM UUID STORAGE TOKEN 
+    debugBucket(`Firestore File Name: ${filename}`);
     const storageToken = uuid.v4();
 
-    // Declare the "filepath" & "options" parameters, which allows customisaton of bucket upload
+    // 2. DECLARE FILEPATH & OPTIONS PARAMETER VARIABLES FOR CUSTOM BUCKET UPLOAD
     const serverFilePath = `./public/uploads/${filename}`;
-    // File-Checker: Checks to see if file has been uploaded to server correctly before uploading
-    // DOCS: https://nodejs.org/api/fs.html#fsaccesspath-mode-callback
-    fs.access(serverFilePath, fs.F_OK, (err) => {
-      if (err) {
-        console.error(err);
-        return({
-          message: 'Error occurred in storing file to server'
-        });
-      } else {
-        console.log("File Successfully Stored in Server");
-      }
-    });
-
-    // Declare options for the upload to Cloud Firestore Storage Bucket
     const options = {
       destination: filename,
       resumable: true,
@@ -39,25 +24,36 @@ module.exports = {
       }
     };
 
-    // Call Firebase Image Upload function to save to storage - which requires 2 parameters (i) the exact filePath & (ii) Options
-    const result = await bucket.upload(serverFilePath, options);
-    
-    // Obtain bucket storage name from our upload result
-    const bucketName = result[0].metadata.bucket;
-    console.log(`Bucket Name: ${bucketName}`);
-    
-    // Construct the URL from (i) firebase base, (ii) bucket storage name, (iii) fileName submitted in POST & (iv) token
-    // NOTE: We need to output the url, store in the DB so we can retrieve via GETs & display
-    const downloadURL = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${filename}?alt=media&token=${storageToken}`;
+    // OPTIONAL DEBUGGING: Checks if server-side /uploads file exists before BUCKET UPLOAD
+    fs.access(serverFilePath, fs.F_OK, (err) => {
+      if (err) {
+        debugBucket(err);
+        return({
+          message: 'Error occurred in storing file to server'
+        });
+      } else {
+        debugBucket("File Successfully Stored in Server");
+      }
+    });
 
-    // Delete the files from temporary server location after bucket upload (/public/uploads)
+    // 3. CLOUD FIRESTORE UPLOAD METHOD CALL
+    const result = await bucket.upload(serverFilePath, options);
+    const bucketName = result[0].metadata.bucket;
+    debugBucket(`Bucket Name: ${bucketName}`);
+    
+    // 4. CONSTRUCT DOWNLOAD URL
+    const downloadURL = `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${filename}?alt=media&token=${storageToken}`;
+    console.log(`File Successfully Uploaded to Storage Bucket: ${downloadURL}`)
+
+    // 5. DELETE TEMPORARY FILE IN SERVER-SIDE UPLOADS
     fs.unlink(serverFilePath, err => {
       if(err) {
+        debugBucket(err);
         return({
           message: 'Error occurred in removing file from temporary local storage'
         });
       } else {
-        console.log('File in temporary local storage deleted');
+        debugBucket('File in temporary local storage deleted');
       }
     });
 
@@ -65,7 +61,7 @@ module.exports = {
   },
 
   getFilePathFromUrl(downloadURL) {
-    console.log(`DownloadURL from DB: ${downloadURL}`);
+    debugBucket(`DownloadURL from DB: ${downloadURL}`);
 
     // Slice off the base URL from downloadURL
     const baseURL = `https://firebasestorage.googleapis.com/v0/b/${config.db.storageBucket}/o/`;
@@ -76,7 +72,7 @@ module.exports = {
     filePath = filePath.substring(0, indexOfEndPath);
     
     // Return filepath to be deleted 
-    console.log(`File in Bucket for Deletion: ${filePath}`);
+    debugBucket(`File in Bucket for Deletion: ${filePath}`);
     return filePath;
   },
 
@@ -97,7 +93,7 @@ module.exports = {
       // Call modified delete request (no deletion from storage bucket)
       // NOTE: Default option is "false", meaning error is issued and delete request fails if file does NOT exist!
       const data = await file.delete(options);
-      console.log(`The file: ${filePath}, does not exist in Storage.  Please check server for inconsistent data handling & database queries.`);
+      debugBucket(`The file: ${filePath}, does not exist in Storage.  Please check server for inconsistent data handling & database queries.`);
 
       // Return API response to controller
       return data[0];
