@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 // Import custom modules
 import authService from '../../services/authService';
 import useAuth from '../../hooks/useAuth';
-import CardContainer from '../../components/common/CardContainer';
+import CXCard from '../../components/common/CXCard';
 import CXButton from '../../components/common/CXButton';
 
 const StyledLabel = styled(Form.Label)`
@@ -103,7 +103,7 @@ const Signup = () => {
   }
 
   return (
-    <CardContainer title="Sign Up" authform>
+    <CXCard title="Sign Up" authform>
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: USERNAME */}
         <Form.Group className="mb-3" controlId="username">
@@ -143,7 +143,7 @@ const Signup = () => {
       <UserNav>
         Already a member? &nbsp; <Link to="/login">Login Here</Link>
       </UserNav>
-    </CardContainer>
+    </CXCard>
   )
 }
 

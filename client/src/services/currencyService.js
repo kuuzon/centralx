@@ -5,10 +5,6 @@ import api from "../services/api";
 function get() {
   return api.get('/api/currency');
 };
-// GET BY ID - CurrencyDetail
-function getById(id) {
-  return api.get('/api/currency/' + id);
-};
 // POST - AddCurrency
 function post(data) {
   const formData = prepareFormData(data);
@@ -17,6 +13,10 @@ function post(data) {
     formData, 
     formConfig
   );
+};
+// GET BY ID - CurrencyDetail
+function getById(id) {
+  return api.get('/api/currency/' + id);
 };
 // PUT - EditCurrency
 function put(id, data, filepath) {

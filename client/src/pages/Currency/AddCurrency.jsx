@@ -7,7 +7,7 @@ import { Row, Col, Form, InputGroup } from 'react-bootstrap';
 // Import custom modules
 import currencyService from '../../services/currencyService';
 import CXButton from '../../components/common/CXButton';
-import CardContainer from '../../components/common/CardContainer';
+import CXCard from '../../components/common/CXCard';
 
 const AddCurrency = () => {
   // HOOK: SETTING COMPONENT STATE (& init values)
@@ -67,7 +67,7 @@ const AddCurrency = () => {
   };
 
   return (
-    <CardContainer title="Add Currency">
+    <CXCard title="Add Currency">
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
@@ -155,7 +155,7 @@ const AddCurrency = () => {
           {loading ? '...' : 'Submit'}
         </CXButton>
       </Form>
-    </CardContainer>
+    </CXCard>
   )
 }
 

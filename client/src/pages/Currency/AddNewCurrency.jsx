@@ -12,7 +12,7 @@ import CXTextarea from '../../components/common/Form/CXTextarea'
 import CXSelect from '../../components/common/Form/CXSelect';
 import CXFile from '../../components/common/Form/CXFile';
 import CXButton from '../../components/common/CXButton';
-import CardContainer from '../../components/common/CardContainer';
+import CXCard from '../../components/common/CXCard';
 
 const AddCurrency = () => {
   // HOOK: SETTING COMPONENT STATE (& init values)
@@ -78,7 +78,7 @@ const AddCurrency = () => {
   };
 
   return (
-    <CardContainer title="Add Currency">
+    <CXCard title="Add Currency">
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
@@ -156,7 +156,7 @@ const AddCurrency = () => {
           {loading ? '...' : 'Submit'}
         </CXButton>
       </Form>
-    </CardContainer>
+    </CXCard>
   )
 }
 

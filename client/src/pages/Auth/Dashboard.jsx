@@ -2,7 +2,7 @@ import React from 'react';
 
 // Import custom modules
 import useAuth from '../../hooks/useAuth';
-import CardContainer from '../../components/common/CardContainer';
+import CXCard from '../../components/common/CXCard';
 import CXButton from '../../components/common/CXButton';
 
 const Dashboard = () => {
@@ -12,16 +12,16 @@ const Dashboard = () => {
   // CONDITIONAL LOAD: USER ERROR [POSSIBLY REPLACE WITH LOADING STATE]
   if (!user) {
     return (
-      <CardContainer title="Profile" authform>
+      <CXCard title="Profile" authform>
         <div className="text-center mb-4">
           Cannot Retrieve User
         </div>
-      </CardContainer>
+      </CXCard>
     )
   }
 
   return (
-    <CardContainer title="Profile" authform>
+    <CXCard title="Profile" authform>
       <div className="text-center mb-4">
         <h4>Welcome {user.username}!</h4>
       </div>
@@ -36,7 +36,7 @@ const Dashboard = () => {
           </CXButton>
         </div>
       }
-    </CardContainer>
+    </CXCard>
   )
 }
 

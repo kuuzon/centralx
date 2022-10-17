@@ -31,7 +31,7 @@ const Styles = styled.div`
   }
 `;
 
-const CardContainer = ({title, authform, children}) => (
+const CXCard = ({title, authform, children}) => (
   <Styles authform={authform ? 1 : 0}> 
     <Container>
       <div className="lead-card">
@@ -44,4 +44,4 @@ const CardContainer = ({title, authform, children}) => (
   </Styles>
 );
 
-export default CardContainer
+export default CXCard

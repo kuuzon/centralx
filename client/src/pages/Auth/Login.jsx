@@ -8,7 +8,7 @@ import styled from 'styled-components';
 // Import custom modules
 import authService from '../../services/authService';
 import useAuth from '../../hooks/useAuth';
-import CardContainer from '../../components/common/CardContainer';
+import CXCard from '../../components/common/CXCard';
 import CXButton from '../../components/common/CXButton';
 
 const StyledLabel = styled(Form.Label)`
@@ -89,7 +89,7 @@ const Login = () => {
   }
 
   return (
-    <CardContainer title="Login" authform>
+    <CXCard title="Login" authform>
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: EMAIL */}
         <Form.Group className="mb-3" controlId="email">
@@ -111,7 +111,7 @@ const Login = () => {
       <UserNav>
         Not a member? &nbsp; <Link to="/signup">Sign Up</Link>
       </UserNav>
-    </CardContainer>
+    </CXCard>
   )
 }
 

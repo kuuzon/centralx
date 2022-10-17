@@ -10,7 +10,7 @@ import currencyService from '../../services/currencyService';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
 import CXButton from '../../components/common/CXButton';
-import CardContainer from '../../components/common/CardContainer';
+import CXCard from '../../components/common/CXCard';
 
 // Custom Styles
 const PreviewImage = styled.img`
@@ -140,7 +140,7 @@ const EditCurrency = () => {
 
   // DEFAULT LOAD: SUCCESS PRE-POPULATION API CALL
   return (
-    <CardContainer title={`Edit Currency: ${name}`}>
+    <CXCard title={`Edit Currency: ${name}`}>
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
@@ -237,7 +237,7 @@ const EditCurrency = () => {
           {loading ? '...' : 'Submit'}
         </CXButton>
       </Form>
-    </CardContainer>
+    </CXCard>
   )
 }
 
