@@ -41,8 +41,7 @@ const EditCurrency = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  // Dynamic File Label
-  const [fileName, setFileName] = useState('Choose File');
+
   // File Path of Existing downloadURL (for potential deletion)
   const [filePath, setFilePath] = useState('');
   const [preview, setPreview] = useState(true);
@@ -65,10 +64,8 @@ const EditCurrency = () => {
         // Set file name value to foodImage stem
         if (!fetchedCurrency.image) {      
           console.log('No downloadURL provided by DB'); 
-          setFileName('Choose File');
         } else {
           const existingFileName = currencyService.getFilePathFromUrl(fetchedCurrency.image);
-          setFileName(existingFileName);
           setFilePath(existingFileName);
         }
         // Success Message:
@@ -98,7 +95,6 @@ const EditCurrency = () => {
     setCurrencyData({
       ...currencyData, image: file
     });
-    setFileName(file.name);
     setPreview(false);
   }
 
@@ -226,7 +222,6 @@ const EditCurrency = () => {
           <Form.Label>New CBDC Image</Form.Label>
           <Form.Control 
             type="file"
-            label={fileName}
             className="mb-4"
             onChange={ handleFileChange }
           />

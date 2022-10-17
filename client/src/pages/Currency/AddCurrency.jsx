@@ -22,8 +22,6 @@ const AddCurrency = () => {
     image: ""
   });
   const [loading, setLoading] = useState(false);
-  // Dynamic File Label
-  const [fileName, setFileName] = useState('Choose File');
 
   // Destructure data state nested object properties & instance of useNavigate class
   const { name, symbol, current_price, price_change_percentage_24h, status, description, nation } = currencyData;
@@ -46,7 +44,6 @@ const AddCurrency = () => {
       ...currencyData, 
       image: file
     });
-    setFileName(file.name);
   }
 
   // [3] handleSubmit will control button event
@@ -144,7 +141,6 @@ const AddCurrency = () => {
           <Form.Label>CBDC Image</Form.Label>
           <Form.Control 
             type="file"
-            label={fileName}
             className="mb-4"
             onChange={ handleFileChange }
           />
