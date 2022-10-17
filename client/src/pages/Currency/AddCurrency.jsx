@@ -37,7 +37,7 @@ const AddCurrency = () => {
     });
   }
 
-  // [2] handleFileChange will handle change in state for the file upload
+  // [2] handleFileChange will handle change in state for FILE data
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setCurrencyData({
@@ -46,7 +46,7 @@ const AddCurrency = () => {
     });
   }
 
-  // [3] handleSubmit will control button event
+  // [3] handleSubmit will control form submission event
   const handleSubmit = async (e) => {
     e.preventDefault();      
     setLoading(true);
@@ -75,7 +75,6 @@ const AddCurrency = () => {
             placeholder="Enter CBDC Name" 
             name="name"
             value={name}
-            minLength="3"
             onChange={ handleTextChange }
           />
         </Form.Group>
@@ -83,7 +82,7 @@ const AddCurrency = () => {
         {/* GROUP 2: SYMBOL */}
         <Form.Group className="mb-3">
           <Form.Label>CBDC Symbol</Form.Label>
-          <Form.Control type="text" placeholder="Enter CBDC Symbol" name="symbol" value={symbol} minLength="3" onChange={ handleTextChange } />
+          <Form.Control type="text" placeholder="Enter CBDC Symbol" name="symbol" value={symbol} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 3: PRICE INFORMATION */}
@@ -94,7 +93,7 @@ const AddCurrency = () => {
               <Form.Label>Current CBDC Price</Form.Label>
               <InputGroup>          
                 <InputGroup.Text id="price-dollar">$</InputGroup.Text>
-                <Form.Control type="number" aria-describedby="price-dollar" id="price-input" name="current_price" value={current_price} minLength="3" onChange={ handleTextChange } />
+                <Form.Control type="number" aria-describedby="price-dollar" id="price-input" name="current_price" value={current_price} onChange={ handleTextChange } />
               </InputGroup>
             </Col>
 
@@ -102,7 +101,7 @@ const AddCurrency = () => {
             <Col lg={6} md={6} sm={12}>
               <Form.Label>24HR Price Change</Form.Label>
               <InputGroup>          
-                <Form.Control type="number" aria-describedby="price-percent" id="price-percent" name="price_change_percentage_24h" value={price_change_percentage_24h} minLength="3" onChange={ handleTextChange } />
+                <Form.Control type="number" aria-describedby="price-percent" id="price-percent" name="price_change_percentage_24h" value={price_change_percentage_24h} onChange={ handleTextChange } />
                 <InputGroup.Text id="price-percent">%</InputGroup.Text>
               </InputGroup>
             </Col>
@@ -127,13 +126,13 @@ const AddCurrency = () => {
         {/* GROUP 5: DESCRIPTION */}
         <Form.Group className="mb-3">
           <Form.Label>Description of New CBDC</Form.Label>
-          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} minLength="3" onChange={ handleTextChange } />
+          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 6: NATION */}
         <Form.Group className="mb-3">
           <Form.Label>Nation of Reserve Bank for DC</Form.Label>
-          <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} minLength="3" onChange={ handleTextChange } />
+          <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 7: IMAGE */}
