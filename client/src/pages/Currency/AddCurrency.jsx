@@ -58,7 +58,7 @@ const AddCurrency = () => {
 
     } catch (err) {
       console.log(err?.response);
-      window.scroll({top: 420, left: 0, behavior: 'smooth' });
+      window.scroll({top: 0, left: 0, behavior: 'smooth' });
     }
     setLoading(false);
   };
