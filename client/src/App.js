@@ -16,6 +16,9 @@ import Dashboard from './pages/Auth/Dashboard';
 // PAGES: CURRENCY SUB-ROUTES
 import CurrencyMenu from './pages/Currency/CurrencyMenu';
 import AddCurrency from './pages/Currency/AddCurrency';
+
+import AddNewCurrency from './pages/Currency/AddNewCurrency';
+
 import CurrencyDetail from './pages/Currency/CurrencyDetail';
 import EditCurrency from './pages/Currency/EditCurrency';
 // PAGES: CRYPTO SUB-ROUTES
@@ -48,6 +51,8 @@ function App() {
         </Route>
         {/* ERROR PAGES */}
         <Route path="*" element={<NotFound />} />
+        {/* TEST PAGES */}
+        <Route path="addnew" element={<AddNewCurrency />} />
       </Route>
     </Routes>
   );
