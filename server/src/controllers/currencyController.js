@@ -4,7 +4,8 @@ const ApiError = require('../utilities/ApiError');
 const { storageBucketUpload, getFilePathFromUrl, deleteFileFromBucket } = require('../utilities/bucketServices');
 
 // Debug logs
-const debugPOST = require('debug')('app:post');
+const debugREAD = require('debug')('app:read');
+const debugWRITE = require('debug')('app:write');
 
 module.exports = {
   // [1] GET Currency (w SORT KEY)
@@ -54,9 +55,9 @@ module.exports = {
   // [2] POST Currency
   async postCurrency(req, res, next){
     // (a) Validation (JOI) Direct from Form (refactored)
-    debugPOST(req.body);
-    debugPOST(req.files);
-    debugPOST(res.locals);
+    debugWRITE(req.body);
+    debugWRITE(req.files);
+    debugWRITE(res.locals);
 
     // (b) File Upload to Storage Bucket
     let downloadURL = null;
@@ -93,6 +94,9 @@ module.exports = {
 
   // [3] GET Currency BY ID
   async getCurrencyById(req, res, next){
+    // Test: Check ID passed via URL query string parameters
+    debugREAD(req.params);
+
     try {
       // Store the currency document query in variable & call GET method for ID
       const currencyRef = db.collection('currency').doc(req.params.id);
@@ -116,9 +120,9 @@ module.exports = {
   // [4] PUT Currency BY ID
   async putCurrencyById(req, res, next){
     // (a) Validation (JOI) Direct from Form (refactored)
-    debugPOST(req.body);
-    debugPOST(req.files);
-    debugPOST(res.locals);
+    debugWRITE(req.body);
+    debugWRITE(req.files);
+    debugWRITE(res.locals);
 
     // (b1) File Upload to Storage Bucket
     // IMAGE CHANGED: If the image is updated, a new file will be saved under req.files
@@ -132,7 +136,7 @@ module.exports = {
 
         // (ii) Delete OLD image version in Storage Bucket, if it exists
         if (req.body.filePath) {
-          debugPOST(`Deleting old image in storage: ${req.body.filePath}`);
+          debugWRITE(`Deleting old image in storage: ${req.body.filePath}`);
           const bucketResponse = await deleteFileFromBucket(req.body.filePath);
         }
       // (b2) IMAGE NOT CHANGED: We just pass back the current downloadURL and pass that back to the database, unchanged!

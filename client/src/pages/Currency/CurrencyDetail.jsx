@@ -94,7 +94,7 @@ const PreviewImage = styled.img`
   border-radius: 50%;
 `;
 
-const CurrencyDetail = ( props ) => {
+const CurrencyDetail = () => {
   // HOOK: CONTEXT FOR AUTH
   const { user } = useAuth();
 
