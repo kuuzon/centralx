@@ -120,6 +120,7 @@ module.exports = {
   // [4] PUT Currency BY ID
   async putCurrencyById(req, res, next){
     // (a) Validation (JOI) Direct from Form (refactored)
+    debugWRITE(req.params);
     debugWRITE(req.body);
     debugWRITE(req.files);
     debugWRITE(res.locals);

@@ -85,7 +85,7 @@ module.exports = {
     // [400 ERROR] Check for Item Existing in Storage Bucket
     // NOTE: To ensure our delete function still works against Firestore DB, we will modify the delete request to prevent an error.
     if (fileChecker[0] === false) {
-      // [TOGGLE]: Set custom option parameter to prevent error returning
+      // [TOGGLE]: Set custom option parameter to prevent error returning (true = ignores missing file!)
       const options = {
         ignoreNotFound: true,
       };
