@@ -6,6 +6,7 @@ const router = express.Router();
 // Import modules
 const CurrencyPolicy = require('../policies/currencyPolicy');
 const FilePolicy = require('../policies/filePolicy');
+const VerifyAuth = require('../middleware/verifyAuth');
 const fileServerUpload = require('../middleware/fileServerUpload');
 const CurrencyController = require('../controllers/currencyController');
 
@@ -22,6 +23,7 @@ module.exports = () => {
     FilePolicy.filesPayloadExists,
     FilePolicy.fileSizeLimiter,
     FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
+    VerifyAuth.auth,
     fileServerUpload],
     CurrencyController.postCurrency
   );
@@ -35,11 +37,14 @@ module.exports = () => {
     FilePolicy.filesPayloadExists,
     FilePolicy.fileSizeLimiter,
     FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
+    VerifyAuth.auth,
     fileServerUpload],
     CurrencyController.putCurrencyById
   );
   // DELETE BY ID Route
   router.delete('/:id',
+    [VerifyAuth.auth,
+    VerifyAuth.admin],
     CurrencyController.deleteCurrencyById
   );
 

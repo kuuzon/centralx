@@ -60,6 +60,9 @@ function App() {
 
 export default App;
 
+// KNOWN ISSUES
+// - Header x-auth-token not updating with actual user.  Memory updating BUT header is NOT.  Causing lag in auth on backend.
+
 // TO DOS
 // - Create startup README.md for WHOLE application (incl. reworking .ENV)
 // - Refactor CSS into reusable components (`StyledLabel`, `StyledInput` and `UserNav`) AND/OR login/register forms into reusable components

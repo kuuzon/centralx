@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(null, (error) => {
   } else {
     // STANDARDISED: By creating uniform error responses, like our backend, we can standardise our errors on the front end
     console.log(`${error.response.data}`);
-    toast(`${error.response.data}`);
+    toast.error(`${error.response.data}`);
   }
 
   // Function Return: As we a intercepting an ERROR we want to make sure we return a rejected promise
@@ -31,7 +31,17 @@ axiosInstance.interceptors.response.use(null, (error) => {
 });
 
 // AXIOS DEFAULT CONFIGS: Set default header with each axios REQUEST for auth token
-axiosInstance.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+// axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+// axiosInstance.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+function setAuthToken(token) {
+  axiosInstance.defaults.headers.common["x-auth-token"] = '';
+  delete axiosInstance.defaults.headers.common["x-auth-token"];
+
+  if (token) {
+    axiosInstance.defaults.headers.common["x-auth-token"] = `${token}`;
+  }
+}
+setAuthToken(localStorage.getItem("token"));
 
 // EXPORT METHODS: Need to access modified axios instance & its CRUD methods, via api.js
 export default axiosInstance;

@@ -52,4 +52,4 @@ const filePolicy = {
   fileExtLimiter
 }
 
-module.exports = filePolicy;
+module.exports = filePolicy

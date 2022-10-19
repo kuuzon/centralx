@@ -11,25 +11,34 @@ class ApiError {
   }
 
   // CLASS METHODS: Custom functions for each type of error we expect
-
   // [400] Bad Request
-  // PARAMETERS: We just pass in our custom message & status code is set as part of the function
   static badRequest(msg) {
     return new ApiError(400, `Bad Request: ${msg}`);
   }
 
+  // [401] Unauthorised
+  // NOTE: Returned when the client provides no credentials or invalid credentials
+  static denyAccess(msg) {
+    return new ApiError(401, `Access Denied: ${msg}`);
+  }
+
+  // [403] Forbidden
+  // NOTE: Returned when client has valid credentials BUT NOT enough privileges to perform an action on a resource
+  static forbidden(msg) {
+    return new ApiError(403, `Access Denied: ${msg}`);
+  }
+
   // [404] Not Found
-  // PARAMETERS: Takes no arguments as it's a static error (only ever going to give one message!)
   static notFound() {
     return new ApiError(404, 'Resource Not Found');
   }
 
-  // [413] (NEW!) Entity Too Large
+  // [413] Entity Too Large
   static tooLarge(msg) {
     return new ApiError(413, `Upload Failed: ${msg}`);
   }
 
-  // [422] (NEW!) Entity Too Large
+  // [422] Entity Too Large
   static cannotProcess(msg) {
     return new ApiError(422, `Upload Failed: ${msg}`);
   }
