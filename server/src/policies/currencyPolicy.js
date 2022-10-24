@@ -15,7 +15,7 @@ module.exports = {
       description: Joi.string().min(3).max(2000).required(),
       nation: Joi.string().min(3).max(50).required(),
       image: Joi.any(),
-      filePath: Joi.string()
+      uploadedFile: Joi.string()
     });
     
     // Return one of two values
@@ -44,7 +44,7 @@ module.exports = {
           break
 
         case 'image':
-        case 'filePath':
+        case 'uploadedFile':
           next(ApiError.badRequest('The existing CBDC image URL or path are not in a valid format - please re-upload the image'))
           break
 

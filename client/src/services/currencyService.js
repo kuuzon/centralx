@@ -19,8 +19,8 @@ function getById(id) {
   return api.get('/api/currency/' + id);
 };
 // PUT - EditCurrency
-function put(id, data, filepath) {
-  const formData = prepareFormData(data, filepath);
+function put(id, data, uploadedfile) {
+  const formData = prepareFormData(data, uploadedfile);
   return api.put(
     '/api/currency/' + id, 
     formData, 
@@ -41,7 +41,7 @@ const formConfig = {
 };
 
 // [2] Form Data: format of mixed data when uploading files
-function prepareFormData(data, filePath){
+function prepareFormData(data, uploadedfile){
   // New instance of class
   let formData = new FormData();
 
@@ -54,8 +54,8 @@ function prepareFormData(data, filePath){
   formData.append('description', data.description);
   formData.append('nation', data.nation);
   formData.append('image', data.image);
-  if (filePath) {
-    formData.append('filePath', filePath);
+  if (uploadedfile) {
+    formData.append('uploadedFile', uploadedfile);
   }
   
   // Return restructured form data (for our API)
@@ -63,18 +63,19 @@ function prepareFormData(data, filePath){
 };
 
 // [3] Create file name from URL in DB
-function getFilePathFromUrl(downloadURL) {
+function getFileFromUrl(downloadURL) {
   // Slice off the base URL from downloadURL
-  const baseURL = `https://firebasestorage.googleapis.com/v0/b/centralx-44ab2.appspot.com/o/`;
-  let fileName = downloadURL.replace(baseURL, "");
+  const baseURL = `https://firebasestorage.googleapis.com/v0/b/${process.env.REACT_APP_STORAGE_BUCKET_URL}/o/`;
+  console.log(baseURL);
+  let fileGlob = downloadURL.replace(baseURL, "");
   
   // Remove everything after the query string
-  const indexOfEndPath = fileName.indexOf("?");
-  fileName = fileName.substring(0, indexOfEndPath);
+  const indexOfEndPath = fileGlob.indexOf("?");
+  fileGlob = fileGlob.substring(0, indexOfEndPath);
   
-  // Return filepath to be deleted 
-  console.log(`File Name: ${fileName}`);
-  return fileName;
+  // Return existing uploaded file glob
+  console.log(`Generated File Glob: ${fileGlob}`);
+  return fileGlob;
 };
 
 const currencyService = {
@@ -83,7 +84,7 @@ const currencyService = {
   post,
   put,
   del,
-  getFilePathFromUrl
+  getFileFromUrl
 }
 
 export default currencyService;

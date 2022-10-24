@@ -1,7 +1,7 @@
 // Import modules
 const { db } = require('../config/db');
 const ApiError = require('../utilities/ApiError');
-const { storageBucketUpload, getFilePathFromUrl, deleteFileFromBucket } = require('../utilities/bucketServices');
+const { storageBucketUpload, getFileFromUrl, deleteFileFromBucket } = require('../utilities/bucketServices');
 
 // Debug logs
 const debugREAD = require('debug')('app:read');
@@ -136,9 +136,9 @@ module.exports = {
         downloadURL = await storageBucketUpload(filename);
 
         // (ii) Delete OLD image version in Storage Bucket, if it exists
-        if (req.body.filePath) {
-          debugWRITE(`Deleting old image in storage: ${req.body.filePath}`);
-          const bucketResponse = await deleteFileFromBucket(req.body.filePath);
+        if (req.body.uploadedFile) {
+          debugWRITE(`Deleting old image in storage: ${req.body.uploadedFile}`);
+          const bucketResponse = await deleteFileFromBucket(req.body.uploadedFile);
         }
       // (b2) IMAGE NOT CHANGED: We just pass back the current downloadURL and pass that back to the database, unchanged!
       } else if (req.body.image) {
@@ -188,12 +188,12 @@ module.exports = {
         return next(ApiError.badRequest('The currency you were looking for does not exist'));
       } 
       
-      // (ii) Store downloadURL and obtain filePath in storage bucket
+      // (ii) Store downloadURL and obtain uploadedFile in storage bucket
       const downloadURL = doc.data().image;
-      const filePath = getFilePathFromUrl(downloadURL);
+      const uploadedFile = getFileFromUrl(downloadURL);
 
-      // (iii) Call storage bucket delete function & delete specified filepath
-      const bucketResponse = await deleteFileFromBucket(filePath);
+      // (iii) Call storage bucket delete function & delete previously uploadedFile
+      const bucketResponse = await deleteFileFromBucket(uploadedFile);
 
       // (b) Delete document from Cloud Firestore
       if (bucketResponse) {

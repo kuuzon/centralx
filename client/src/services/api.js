@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 // CREATE NEW INSTANCE OF AXIOS: Allows us to customise its configuration
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000"
+  baseURL: process.env.REACT_APP_CXAPI_URL
 });
 
 // AXIOS RESPONSE (INTERCEPTOR): Allows errors to be intercepted globally and displays messages with React Toast

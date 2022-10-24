@@ -108,7 +108,19 @@ const AddCurrency = () => {
           </Row>
         </Form.Group>
 
-        {/* GROUP 4: CBDC STATUS */}
+        {/* GROUP 4: DESCRIPTION */}
+        <Form.Group className="mb-3">
+          <Form.Label>Description of New CBDC</Form.Label>
+          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} onChange={ handleTextChange } />
+        </Form.Group>
+
+        {/* GROUP 5: NATION */}
+        <Form.Group className="mb-3">
+          <Form.Label>Nation of Reserve Bank for DC</Form.Label>
+          <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} onChange={ handleTextChange } />
+        </Form.Group>
+
+        {/* GROUP 6: CBDC STATUS */}
         <Form.Group className="mb-3">
           <Form.Label>CBDC Status</Form.Label>
           <Form.Control 
@@ -121,18 +133,6 @@ const AddCurrency = () => {
             <option value="tradeable">Tradeable</option>
             <option value="non-tradeable">Non-Tradeable</option>
           </Form.Control>
-        </Form.Group>
-
-        {/* GROUP 5: DESCRIPTION */}
-        <Form.Group className="mb-3">
-          <Form.Label>Description of New CBDC</Form.Label>
-          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} onChange={ handleTextChange } />
-        </Form.Group>
-
-        {/* GROUP 6: NATION */}
-        <Form.Group className="mb-3">
-          <Form.Label>Nation of Reserve Bank for DC</Form.Label>
-          <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 7: IMAGE */}

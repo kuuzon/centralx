@@ -60,26 +60,26 @@ module.exports = {
     return downloadURL;
   },
 
-  getFilePathFromUrl(downloadURL) {
+  getFileFromUrl(downloadURL) {
     debugBucket(`DownloadURL from DB: ${downloadURL}`);
 
     // Slice off the base URL from downloadURL
     const baseURL = `https://firebasestorage.googleapis.com/v0/b/${config.db.storageBucket}/o/`;
-    let filePath = downloadURL.replace(baseURL, "");
+    let fileGlob = downloadURL.replace(baseURL, "");
     
     // Remove everything after the query string
-    const indexOfEndPath = filePath.indexOf("?");
-    filePath = filePath.substring(0, indexOfEndPath);
+    const indexOfEndPath = fileGlob.indexOf("?");
+    fileGlob = fileGlob.substring(0, indexOfEndPath);
     
-    // Return filepath to be deleted 
-    debugBucket(`File in Bucket for Deletion: ${filePath}`);
-    return filePath;
+    // Return file glob to be deleted 
+    debugBucket(`File in Bucket for Deletion: ${fileGlob}`);
+    return fileGlob;
   },
 
-  async deleteFileFromBucket(filePath) {
+  async deleteFileFromBucket(uploadedFile) {
     // Determine File Location in Storage 
     // NOTE: You would ALSO want to CHECK if it existed in the storage bucket before deletion OTHERWISE it would hit an error!    
-    const file = bucket.file(filePath);
+    const file = bucket.file(uploadedFile);
     const fileChecker = await file.exists();
 
     // [400 ERROR] Check for Item Existing in Storage Bucket
@@ -93,7 +93,7 @@ module.exports = {
       // Call modified delete request (no deletion from storage bucket)
       // NOTE: Default option is "false", meaning error is issued and delete request fails if file does NOT exist!
       const data = await file.delete(options);
-      debugBucket(`The file: ${filePath}, does not exist in Storage.  Please check server for inconsistent data handling & database queries.`);
+      debugBucket(`The file: ${uploadedFile}, does not exist in Storage.  Please check server for inconsistent data handling & database queries.`);
 
       // Return API response to controller
       return data[0];
@@ -102,7 +102,7 @@ module.exports = {
     } else {
       // Call standard delete request
       const data = await file.delete();
-      console.log(`File deleted from Storage Bucket: ${filePath}`);
+      console.log(`File deleted from Storage Bucket: ${uploadedFile}`);
 
       // Return API response to controller
       return data[0];

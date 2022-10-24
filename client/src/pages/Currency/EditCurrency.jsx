@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-// Import modules
-import styled from 'styled-components';
 import { Container, Row, Col, Form, InputGroup } from 'react-bootstrap';
+import styled from 'styled-components';
 
 // Import custom modules
 import currencyService from '../../services/currencyService';
@@ -42,76 +40,90 @@ const EditCurrency = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  // File Path of Existing downloadURL (for potential deletion)
-  const [filePath, setFilePath] = useState('');
+  // Uploaded File from Existing downloadURL
+  const [uploadedFile, setUploadedFile] = useState("");
   const [preview, setPreview] = useState(true);
 
   // Destructure data state nested object properties
   const { id, name, symbol, current_price, price_change_percentage_24h, description, nation, status, image } = currencyData;
 
+  // HOOK: Re-mount Request Prevention (React18)
+  const effectRan = useRef(false);
+
   // HOOK: ON-LOAD SIDE EFFECTS
   useEffect(() => {
-    // [0] Pre-population fetch currency function (based on id)
-    async function fetchCurrency() {
-      try {
-        const response = await currencyService.getById(id);
-        const fetchedCurrency = await response.data;
-        console.log(fetchedCurrency);
+    console.log("Effect Ran");
+    if (effectRan.current === false) {
+      fetchCurrency();
+      setLoading(false);
 
-        // Using the spread, we OVERWRITE our initial object with the new data!
-        setCurrencyData(currencyData => ({...currencyData,...fetchedCurrency}));
-
-        // Set file name value to foodImage stem
-        if (!fetchedCurrency.image) {      
-          console.log('No downloadURL provided by DB'); 
-        } else {
-          const existingFileName = currencyService.getFilePathFromUrl(fetchedCurrency.image);
-          setFilePath(existingFileName);
-        }
-        // Success Message:
-        setLoading(false);
-
-      } catch (err) {
-        console.log(err?.response);
-        setError(true); 
+      // CLEAN UP FUNCTION
+      return () => {
+        console.log("Unmounted");
+        effectRan.current = true;
       }
     }
-    fetchCurrency();
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]); 
 
   // FORM FUNCTIONS
-  // [1] handleTextChange will handle change in state value event for TEXT data
+  // [0] FORM PRE-POPULATION CALL
+  async function fetchCurrency() {
+    try {
+      const response = await currencyService.getById(id);
+      const fetchedCurrency = await response.data;
+      console.log(fetchedCurrency);
+
+      // Using the spread, we OVERWRITE our initial object with the new data!
+      setCurrencyData(currencyData => ({...currencyData,...fetchedCurrency}));
+
+      // Save uploaded file glob to state
+      if (!fetchedCurrency.image) {      
+        console.log('No downloadURL provided by DB'); 
+      } else {
+        const fileGlob = currencyService.getFileFromUrl(fetchedCurrency.image);
+        setUploadedFile(fileGlob);
+      }
+
+    } catch(err) {
+      console.log(err?.response);
+      setError(true); 
+    }
+  }
+
+  // [1] CHANGE STATE FOR TEXT FORM DATA
   const handleTextChange = (e) => {
     const { name, value } = e.target;
     setCurrencyData({
-      ...currencyData,             // Spread/copy the object to prevent it being overwritten by new state
-      [name]: value        // Overwrite the values of the fields (which match the "name" attribute) to update
+      ...currencyData,            
+      [name]: value       
     });
   }
 
-  // [2] handleFileChange will handle change in state for the file upload
+  // [2] CHANGE STATE FOR FILE FORM DATA
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setCurrencyData({
-      ...currencyData, image: file
+      ...currencyData, 
+      image: file
     });
     setPreview(false);
   }
 
-  // [3] handleSubmit will control button event
+  // [3] FORM SUBMISSION FUNCTION
   const handleSubmit = async (e) => {
     e.preventDefault();      
     setLoading(true);
     try {
-      // NOTE: We add filePath parameter to pass downloadURL
-      const response = await currencyService.put(id, currencyData, filePath);
+      // NOTE: We add uploadedFile parameter to pass image glob
+      const response = await currencyService.put(id, currencyData, uploadedFile);
       console.log(response);
       navigate('/currency/prices');
 
     } catch (err) {
       console.log(err?.response);
       setError(true); 
-      window.scroll({top: 420, left: 0, behavior: 'smooth' });
+      window.scroll({top: 0, left: 0, behavior: 'smooth' });
     }
     setLoading(false);
   };
@@ -136,7 +148,7 @@ const EditCurrency = () => {
 
   // DEFAULT LOAD: SUCCESS PRE-POPULATION API CALL
   return (
-    <CXCard title={`Edit Currency: ${name}`}>
+    <CXCard title="Edit Currency">
       {/* FORM SECTION */}
       <Form onSubmit={ handleSubmit }>
         {/* GROUP 1: NAME */}
@@ -147,7 +159,6 @@ const EditCurrency = () => {
             placeholder="Enter CBDC Name" 
             name="name"
             value={name}
-            minLength="3"
             onChange={ handleTextChange }
           />
         </Form.Group>
@@ -155,7 +166,7 @@ const EditCurrency = () => {
         {/* GROUP 2: SYMBOL */}
         <Form.Group controlId="symbol" className="mb-3">
           <Form.Label>CBDC Symbol</Form.Label>
-          <Form.Control type="text" placeholder="Enter CBDC Symbol Name - only THREE letters" name="symbol" value={symbol} minLength="3" onChange={ handleTextChange } />
+          <Form.Control type="text" placeholder="Enter CBDC Symbol" name="symbol" value={symbol} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 3: PRICE INFORMATION */}
@@ -166,7 +177,7 @@ const EditCurrency = () => {
               <Form.Label>Current CBDC Price</Form.Label>
               <InputGroup>          
                 <InputGroup.Text id="price-dollar">$</InputGroup.Text>
-                <Form.Control type="number" aria-describedby="price-dollar" id="price-input" name="current_price" value={current_price} minLength="3" onChange={ handleTextChange } />
+                <Form.Control type="number" aria-describedby="price-dollar" id="price-input" name="current_price" value={current_price} onChange={ handleTextChange } />
               </InputGroup>
             </Col>
 
@@ -174,7 +185,7 @@ const EditCurrency = () => {
             <Col lg={6} md={6} sm={12}>
               <Form.Label>24HR Price Change</Form.Label>
               <InputGroup>          
-                <Form.Control type="number" aria-describedby="price-percent" id="price-percent" name="price_change_percentage_24h" value={price_change_percentage_24h} minLength="3" onChange={ handleTextChange } />
+                <Form.Control type="number" aria-describedby="price-percent" id="price-percent" name="price_change_percentage_24h" value={price_change_percentage_24h} onChange={ handleTextChange } />
                 <InputGroup.Text id="price-percent">%</InputGroup.Text>
               </InputGroup>
             </Col>
@@ -184,13 +195,13 @@ const EditCurrency = () => {
         {/* GROUP 4: DESCRIPTION */}
         <Form.Group controlId="description" className="mb-3">
           <Form.Label>Description of New CBDC</Form.Label>
-          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} minLength="3" onChange={ handleTextChange } />
+          <Form.Control as="textarea" type="text" placeholder="Enter description of CBDC" name="description" value={description} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 5: NATION */}
         <Form.Group controlId="nation" className="mb-3">
           <Form.Label>Nation of Reserve Bank for DC</Form.Label>
-          <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} minLength="3" onChange={ handleTextChange } />
+          <Form.Control type="text" placeholder="Enter nation of the CBDC" name="nation" value={nation} onChange={ handleTextChange } />
         </Form.Group>
 
         {/* GROUP 6: CBDC STATUS */}

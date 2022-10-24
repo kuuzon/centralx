@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // Import modules
@@ -120,33 +120,45 @@ const CurrencyDetail = () => {
   // Destructure data state nested object properties & instance of useNavigate class (NOTE IMAGE DESTRUCTURED)
   const { id, name, symbol, current_price, price_change_percentage_24h, status, description, nation, image } = currencyData;
 
+  // HOOK: Prevention of useEffect calling TWICE (React v18)
+  const effectRan = useRef(false);
+
   // HOOK: ON-LOAD SIDE EFFECTS
   useEffect(() => {
-    // [0] Pre-population fetch currency function (based on id)
-    async function fetchCurrency() {
-      try {
-        const response = await currencyService.getById(id);
-        const fetchedCurrency = await response.data
-        console.log(fetchedCurrency);
+    console.log("Effect Ran");
+    if (effectRan.current === false) {
+      fetchCurrency();
+      setLoading(false);
 
-        // Using the spread, we OVERWRITE our initial object with the new data!
-        // NOTE: We could just do setData({...currencyData, ...fetchedCurrency}), but the dependency array then has issues!
-        // NOTE: Specifically, we pass a function that has a first param (currencyData) same as the current value of the state, and we set it to state we want in the return of the function!
-        setCurrencyData(currencyData => ({...currencyData,...fetchedCurrency}));
-
-        // Success Message:
-        setLoading(false);
-
-      } catch (err) {
-        console.log(err?.response);
-        setError(true);
+      // CLEAN UP FUNCTION
+      return () => {
+        console.log("Unmounted");
+        effectRan.current = true;
       }
     }
-    fetchCurrency();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // FUNCTIONS
-  // [1] handleDeleteClick
+  // [1] PAGE POPULATION
+  async function fetchCurrency() {
+    try {
+      const response = await currencyService.getById(id);
+      const fetchedCurrency = await response.data
+      console.log(fetchedCurrency);
+
+      // Using the spread, we OVERWRITE our initial object with the new data!
+      // NOTE: We could just do setData({...currencyData, ...fetchedCurrency}), but the dependency array then has issues!
+      // NOTE: Specifically, we pass a function that has a first param (currencyData) same as the current value of the state, and we set it to state we want in the return of the function!
+      setCurrencyData(currencyData => ({...currencyData,...fetchedCurrency}));
+
+    } catch (err) {
+      console.log(err?.response);
+      setError(true);
+    }
+  }
+
+  // [2] DELETION OF DOCUMENT
   const handleDeleteClick = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -166,12 +178,12 @@ const CurrencyDetail = () => {
     }
   }
 
-  // [2] TEXT-STANDARDISER
+  // [3] TEXT-STANDARDISER
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  // [3] NUMBER STANDARDISER
+  // [4] NUMBER STANDARDISER
   function numSeparator(number) {
     let str = number.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
