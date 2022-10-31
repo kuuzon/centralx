@@ -8,6 +8,7 @@ import { Container, Row, Col, Accordion } from 'react-bootstrap';
 // Import custom components
 import useAuth from '../../hooks/useAuth';
 import currencyService from '../../services/currencyService';
+import { numSeparator, capitalizeFirstLetter } from '../../utilities/readUtils';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
 import CXButton from '../../components/common/CXButton';
@@ -176,18 +177,6 @@ const CurrencyDetail = () => {
       setError(true);
       window.scroll({top: 0, left: 0, behavior: 'smooth' });
     }
-  }
-
-  // [3] TEXT-STANDARDISER
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  // [4] NUMBER STANDARDISER
-  function numSeparator(number) {
-    let str = number.toString().split(".");
-    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return  "$" + str.join(".");
   }
 
   // CONDITIONAL LOAD: ERROR

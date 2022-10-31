@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
+// Import local modules
 import MenuItem from './MenuItem';
+import { numSeparator, capitalizeFirstLetter } from '../../../utilities/readUtils'
 
 const GridList = styled.div`
   margin: 2rem 0;
@@ -42,17 +45,6 @@ const GridList = styled.div`
 `;
 
 const MenuList = (props) => {
-  // Function using Regex to pass commas into long digits
-  function numSeparator(number) {
-    let str = number.toString().split(".");
-    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return  "$" + str.join(".");
-  }
-
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   return (
     <GridList>
         <div className="grid-static">

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 // Import custom modules
 import currencyService from '../../services/currencyService';
+import { getFileFromUrl } from '../../utilities/writeUtils';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
 import CXButton from '../../components/common/CXButton';
@@ -52,14 +53,12 @@ const EditCurrency = () => {
 
   // HOOK: ON-LOAD SIDE EFFECTS
   useEffect(() => {
-    console.log("Effect Ran");
     if (effectRan.current === false) {
       fetchCurrency();
       setLoading(false);
 
       // CLEAN UP FUNCTION
       return () => {
-        console.log("Unmounted");
         effectRan.current = true;
       }
     }
@@ -81,7 +80,7 @@ const EditCurrency = () => {
       if (!fetchedCurrency.image) {      
         console.log('No downloadURL provided by DB'); 
       } else {
-        const fileGlob = currencyService.getFileFromUrl(fetchedCurrency.image);
+        const fileGlob = getFileFromUrl(fetchedCurrency.image);
         setUploadedFile(fileGlob);
       }
 
