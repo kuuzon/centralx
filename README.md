@@ -77,6 +77,12 @@ To ensure the server runs, you will need to set the following variables in a cli
     CORS_WHITELIST_2=
     *whitelists client-side urls allowed to connect to the API - ideally being a testing domain & actual, if hosted*
 
+## Google Cloud Firestore & Cloud Storage
+
+The project database is hosted using Google Cloud Firestore using the [Firebase Admin SDK](https://firebase.google.com/docs/reference/admin/node).
+
+The project will need to Firebase Admin SDK Service Account via the [Firebase Console](https://console.firebase.google.com/u/0/).  You will need to configure your account settings to allow for credentials access to both the Cloud Firestore & Cloud Storage services, which are passed into the `envs` above.
+
 ## Usage
 
 The project is run as a Node.js server, with scripts allowing for the use of `nodemon` to spin up the development environment:
@@ -93,9 +99,3 @@ The project is run as a Node.js server, with scripts allowing for the use of `no
     *server: refined production environment, where only essential logs exposed to CLI*
 
 **For server-side spin up options, see `scripts` in [Node Server `package.json`](./server/package.json)**
-
-## Google Cloud Firestore & Cloud Storage
-
-The project database is hosted using Google Cloud Firestore using the [Firebase Admin SDK](https://firebase.google.com/docs/reference/admin/node).
-
-The project will need to Firebase Admin SDK Service Account via the [Firebase Console](https://console.firebase.google.com/u/0/).  You will need to configure your account settings to allow for credentials access to both the Cloud Firestore & Cloud Storage services, which are passed into the `envs` above.
