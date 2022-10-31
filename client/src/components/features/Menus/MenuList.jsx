@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 // Import local modules
 import MenuItem from './MenuItem';
-import { numSeparator, capitalizeFirstLetter } from '../../../utilities/readUtils'
+import { numSeparator, capitalizeFirstLetter } from '../../../utilities/readUtils';
 
 const GridList = styled.div`
   margin: 2rem 0;
