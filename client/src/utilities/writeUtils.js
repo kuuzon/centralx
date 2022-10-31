@@ -14,8 +14,6 @@ function getFileFromUrl(downloadURL) {
   return fileGlob;
 };
 
-const writeUtils = {
+export {
   getFileFromUrl
 }
-
-export default writeUtils;
