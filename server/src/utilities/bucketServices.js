@@ -3,7 +3,7 @@ const { bucket } = require('../config/db');
 const debugBucket = require('debug')('app:bucket');
 const config = require("../config/config");
 const uuid = require('uuid');
-const fs = require('fs');
+const { checkServerFile, deleteServerFile } = require("../utilities/serverFileServices")
 
 module.exports = {
   async storageBucketUpload(filename) {
@@ -25,16 +25,7 @@ module.exports = {
     };
 
     // OPTIONAL DEBUGGING: Checks if server-side /uploads file exists before BUCKET UPLOAD
-    fs.access(serverFilePath, fs.F_OK, (err) => {
-      if (err) {
-        debugBucket(err);
-        return({
-          message: 'Error occurred in storing file to server'
-        });
-      } else {
-        debugBucket("File Successfully Stored in Server");
-      }
-    });
+    checkServerFile(serverFilePath);
 
     // 3. CLOUD FIRESTORE UPLOAD METHOD CALL
     const result = await bucket.upload(serverFilePath, options);
@@ -46,17 +37,7 @@ module.exports = {
     console.log(`File Successfully Uploaded to Storage Bucket: ${downloadURL}`)
 
     // 5. DELETE TEMPORARY FILE IN SERVER-SIDE UPLOADS
-    fs.unlink(serverFilePath, err => {
-      if(err) {
-        debugBucket(err);
-        return({
-          message: 'Error occurred in removing file from temporary local storage'
-        });
-      } else {
-        debugBucket('File in temporary local storage deleted');
-      }
-    });
-
+    deleteServerFile(serverFilePath);
     return downloadURL;
   },
 
