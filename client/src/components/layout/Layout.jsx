@@ -1,7 +1,7 @@
 // Import react modules
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, Slide } from 'react-toastify';
 
 // Import npm packages
 import styled from 'styled-components';
@@ -21,7 +21,17 @@ const Layout = () => (
     {/* TOAST is a popup component to display Errors */}
     <ToastContainer 
       style={{ textAlign: "center" }} 
-      position="top-center"
+      position='top-center'
+      autoClose={5000}
+      hideProgressBar
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover
+      transition={Slide}
+      theme="colored"
     />
     <Header />
     {/* Wrap all content in column-direction flexbox */}

@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // Import npm packages
-import axios from 'axios';
 import { Container } from 'react-bootstrap';
-import { toast } from 'react-toastify';   //Error box
 
 // Import child components
+import cgService from '../../services/cgService';
 import MenuList from '../../components/features/Menus/MenuList';
 import ErrorPage from '../../components/common/ErrorPage';
 import Loader from '../../components/common/Loader';
@@ -39,15 +38,13 @@ const CryptoMenu = () => {
   async function fetchCrypto() {
     try {
       // External API Request: CoinGecko
-      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1`);
+      const response = await cgService.getList();
       console.log(response);
       const data = await response.data;
       setData(data);
 
     } catch(err) {
-      console.log(err)
       setError(true); 
-      toast.error("Internal Server Error - Cannot retrieve data"); 
     }
   }
 

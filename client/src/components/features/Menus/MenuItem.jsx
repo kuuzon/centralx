@@ -78,12 +78,11 @@ const MenuItem = (props) => {
         </div>
 
         {/* Section 5: Link to Details */}
-        <CXNavLink 
-          to={`/currency/${props.id}`}
-          outline
-        >
-          Buy {props.symbol}
-        </CXNavLink>
+        { props.nation !== null ? 
+          <CXNavLink to={`/currency/${props.id}`} outline>Buy {props.symbol}</CXNavLink>
+        :
+          <CXNavLink to={`/crypto/${props.id}`} outline>Buy {props.symbol}</CXNavLink>
+        }
       </div>
     </Styles>
   )

@@ -55,20 +55,37 @@ const MenuList = (props) => {
           <span>&nbsp;</span>
         </div>
       <div className="grid-coin">
-        { props.coins.map(( coin ) => (
-          <MenuItem 
-            key={coin.id}
-            id={coin.id}
-            name={coin.name}
-            symbol={coin.symbol.toUpperCase()}
-            price={numSeparator(coin.current_price.toFixed(2))}
-            pricechange24h={coin.price_change_percentage_24h.toFixed(2)}
-            mktstatus={coin.status ? capitalizeFirstLetter(coin.status) : numSeparator(coin.market_cap)}
-            description={coin.description ? coin.description : ""}
-            nation={coin.nation ? coin.nation : ""}
-            image={coin.image}
-          />
-        ))}
+        { props.coins.map( coin => {
+          return coin.nation ? 
+          
+            // CENTRALX API
+            <MenuItem 
+              key={coin.id}
+              id={coin.id}
+              name={coin.name}
+              symbol={coin.symbol.toUpperCase()}
+              price={numSeparator(coin.current_price.toFixed(2))}
+              pricechange24h={coin.price_change_percentage_24h.toFixed(2)}
+              mktstatus={capitalizeFirstLetter(coin.status)}
+              description={coin.description}
+              nation={coin.nation}
+              image={coin.image}
+            /> 
+          :
+            // COINGECKO API
+            <MenuItem 
+              key={coin.id}
+              id={coin.id}
+              name={coin.name}
+              symbol={coin.symbol.toUpperCase()}
+              price={numSeparator(coin.current_price.toFixed(2))}
+              pricechange24h={coin.price_change_percentage_24h.toFixed(2)}
+              mktstatus={numSeparator(coin.market_cap)}
+              description={coin.description}
+              nation={null}
+              image={coin.image}             
+            />
+        })}
       </div>
     </GridList>
   )

@@ -2,12 +2,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 // CREATE NEW INSTANCE OF AXIOS: Allows us to customise its configuration
-const api = axios.create({
-  baseURL: process.env.REACT_APP_CXAPI_URL
+const cgApi = axios.create({
+  baseURL: "https://api.coingecko.com/api/v3"
 });
 
 // AXIOS RESPONSE (INTERCEPTOR): Allows errors to be intercepted globally and displays messages with React Toast
-api.interceptors.response.use(null, (error) => {
+cgApi.interceptors.response.use(null, (error) => {
   // Setting Expected Error Range: If it is a error from 400 - 500
   const expectedError =
     error.response &&
@@ -22,7 +22,7 @@ api.interceptors.response.use(null, (error) => {
     toast.error('Unexpected Error');
   } else {
     // STANDARDISED: By creating uniform error responses, like our backend, we can standardise our errors on the front end
-    console.log(`${error?.response.data}`);
+    console.log(`${error?.response}`);
     toast.warn(`${error.response.data}`);
   }
 
@@ -31,17 +31,17 @@ api.interceptors.response.use(null, (error) => {
 });
 
 // AXIOS DEFAULT CONFIGS: Set default header with each axios REQUEST for auth token
-// api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-// api.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+// cgApi.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+// cgApi.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
 function setAuthToken(token) {
-  api.defaults.headers.common["x-auth-token"] = '';
-  delete api.defaults.headers.common["x-auth-token"];
+  cgApi.defaults.headers.common["x-auth-token"] = '';
+  delete cgApi.defaults.headers.common["x-auth-token"];
 
   if (token) {
-    api.defaults.headers.common["x-auth-token"] = `${token}`;
+    cgApi.defaults.headers.common["x-auth-token"] = `${token}`;
   }
 }
 setAuthToken(localStorage.getItem("token"));
 
 // EXPORT METHODS: Need to access modified axios instance & its CRUD methods, via api.js
-export default api;
+export default cgApi;

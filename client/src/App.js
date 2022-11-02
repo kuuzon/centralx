@@ -23,6 +23,7 @@ import CurrencyDetail from './pages/Currency/CurrencyDetail';
 import EditCurrency from './pages/Currency/EditCurrency';
 // PAGES: CRYPTO SUB-ROUTES
 import CryptoMenu from './pages/Crypto/CryptoMenu';
+import CryptoDetail from './pages/Crypto/CryptoDetail';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         {/* CRYPTO: EXTERNAL API */}
         <Route path="crypto">
           <Route path="prices" element={<CryptoMenu />} />
+          <Route path=":id" element={<CryptoDetail />} />
         </Route>
         {/* ERROR PAGES */}
         <Route path="*" element={<NotFound />} />
@@ -62,7 +64,7 @@ export default App;
 
 // KNOWN ISSUES
 // - Header x-auth-token not updating with actual user.  Memory updating BUT header is NOT.  Causing lag in auth on backend.
-// - Create startup README.md for WHOLE application (incl. reworking .ENV)
+// - Weird loading error on CryptoDetail not showing loading spinner
 // - Refactor CSS into streamlined form component
 // - TypeScript on backend (Node:TS)
 // - Dark mode setup with Styled Components
