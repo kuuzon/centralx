@@ -63,10 +63,8 @@ function App() {
 export default App;
 
 // KNOWN ISSUES
-// - Header x-auth-token not updating with actual user.  Memory updating BUT header is NOT.  Causing lag in auth on backend.
 // - Weird loading error on CryptoDetail not showing loading spinner
 // - Refactor CSS into streamlined form component
-// - TypeScript on backend (Node:TS)
 // - Dark mode setup with Styled Components
 
 // EXPANSION
