@@ -23,7 +23,7 @@ module.exports = () => {
     FilePolicy.filesPayloadExists,
     FilePolicy.fileSizeLimiter,
     FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
-    // VerifyAuth.auth,
+    VerifyAuth.auth,
     fileServerUpload],
     CurrencyController.postCurrency
   );
@@ -37,14 +37,14 @@ module.exports = () => {
     FilePolicy.filesPayloadExists,
     FilePolicy.fileSizeLimiter,
     FilePolicy.fileExtLimiter(['.png', '.jpg', '.jpeg', '.gif']),
-    // VerifyAuth.auth,
+    VerifyAuth.auth,
     fileServerUpload],
     CurrencyController.putCurrencyById
   );
   // DELETE BY ID Route
   router.delete('/:id',
-    // [VerifyAuth.auth,
-    // VerifyAuth.admin],
+    [VerifyAuth.auth,
+    VerifyAuth.admin],
     CurrencyController.deleteCurrencyById
   );
 

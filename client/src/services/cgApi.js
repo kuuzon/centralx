@@ -30,18 +30,5 @@ cgApi.interceptors.response.use(null, (error) => {
   return Promise.reject(error); 
 });
 
-// AXIOS DEFAULT CONFIGS: Set default header with each axios REQUEST for auth token
-// cgApi.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-// cgApi.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
-function setAuthToken(token) {
-  cgApi.defaults.headers.common["x-auth-token"] = '';
-  delete cgApi.defaults.headers.common["x-auth-token"];
-
-  if (token) {
-    cgApi.defaults.headers.common["x-auth-token"] = `${token}`;
-  }
-}
-setAuthToken(localStorage.getItem("token"));
-
 // EXPORT METHODS: Need to access modified axios instance & its CRUD methods, via api.js
 export default cgApi;

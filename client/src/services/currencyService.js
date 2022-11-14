@@ -36,7 +36,7 @@ function del(id) {
 // [1] Form Config: sets the content header to form data
 const formConfig = {
   headers: {
-    'content-type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data'
   }
 };
 

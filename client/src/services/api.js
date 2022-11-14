@@ -31,17 +31,20 @@ api.interceptors.response.use(null, (error) => {
 });
 
 // AXIOS DEFAULT CONFIGS: Set default header with each axios REQUEST for auth token
-// api.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-// api.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
-function setAuthToken(token) {
-  api.defaults.headers.common["x-auth-token"] = '';
-  delete api.defaults.headers.common["x-auth-token"];
+// NOTE on Authorization > x-auth-token: 
+// - https://stackoverflow.com/questions/69494662/x-auth-token-vs-x-access-token-vs-authorization-in-jwt 
+// - https://jwt.io/introduction/ 
+// - https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
 
-  if (token) {
-    api.defaults.headers.common["x-auth-token"] = `${token}`;
+export function setHeaderToken() {
+  const token = localStorage.getItem("token");
+  if(token) {
+    api.defaults.headers.common["Authorization"] = "Bearer " + token;
+  } else {
+    delete api.defaults.headers.common["Authorization"];
   }
 }
-setAuthToken(localStorage.getItem("token"));
+setHeaderToken();
 
 // EXPORT METHODS: Need to access modified axios instance & its CRUD methods, via api.js
 export default api;

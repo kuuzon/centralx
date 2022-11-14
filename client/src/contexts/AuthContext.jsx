@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
+import { setHeaderToken } from '../services/api';
 
 // Create our AuthContext [CREATES the WRAPPER]
 const AuthContext = React.createContext();
@@ -21,6 +22,7 @@ export function AuthProvider({ children }) {
     const { token } = data;
     localStorage.setItem("token", token);
     setUser(jwtDecode(token));
+    setHeaderToken();
   };
 
   // 2. Get Current User Function
@@ -39,6 +41,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
     setUser(null);
     navigate("/login");
+    setHeaderToken();
   }
 
   // Passed to Provider as sub-props

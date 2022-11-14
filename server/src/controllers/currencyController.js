@@ -22,6 +22,13 @@ module.exports = {
 
       // [C] INDEX OPTION: Currency Name in Descending Order
       // const snapshot = await currencyRef.where("status", "==", "pending").orderBy("name", "desc").limit(5).get();
+
+      // [D] INDEX OPTION: Conditional conditions
+      // let snapshot = currencyRef.where("status", "==", "tradeable");
+      // if (id) {
+      //   snapshot = snapshot.where("id", "==", "1")
+      // }
+      // snapshot = await snapshot.get();
   
       // [400 ERROR] Check for User Asking for Non-Existent Documents
       if (snapshot.empty) {

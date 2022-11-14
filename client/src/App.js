@@ -68,3 +68,7 @@ export default App;
 // - Refactor CSS into streamlined form component
 // - TypeScript on backend (Node:TS)
 // - Dark mode setup with Styled Components
+
+// EXPANSION
+// - Test for duplicate currencies
+// - Dashboard needs to be passed user id to URL & create image uploader for Dashboard profile 

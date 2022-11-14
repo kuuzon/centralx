@@ -4,12 +4,16 @@ const config = require("../config/config");
 const debugJWT = require('debug')('app:jwt');
 
 const auth = (req, res, next) => {
-  // Load token from header
-  const token = req.header("x-auth-token");
+  // Load Bearer token from header
+  let token = req.header("Authorization");
 
   // 400 ERROR: Token not passed with header
   if (!token) {
     return next(ApiError.denyAccess("No token provided"));
+  } else {
+    // Substring: Returns part of string between indexes set (we want everything AFTER "Bearer ")
+    token = token.substring(7, token.length);
+    debugJWT(`DEBUG - Returned token: ${token}`);
   }
 
   // Test for valid token using app key (to decode)
