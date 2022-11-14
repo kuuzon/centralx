@@ -13,7 +13,6 @@ import CXButton from '../../components/common/CXButton';
 import CXNavLink from '../common/CXNavLink';
 
 const StyledNavbar = styled(Navbar)`
-  background-color: var(--primary);
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;   /* ATTACH TO SCROLL EVENT */
 `;
 
@@ -28,7 +27,7 @@ const StyledLogo = styled(RiExchangeFundsLine)`
   }
 `;
 
-const Header = () => {
+const Header = ({ toggleTheme }) => {
   const { user, logout } = useAuth();
 
   return (
@@ -40,7 +39,7 @@ const Header = () => {
           CentralX
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <Navbar.Collapse id="responsive-navbar-nav" >
           {/* STANDARD NAVLINKS */}
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/about">About</Nav.Link>
@@ -49,6 +48,7 @@ const Header = () => {
           </Nav>
           {/* AUTH NAVLINKS */}
           <Nav>
+            <CXButton onClick={() => { toggleTheme() }} navbar>Theme</CXButton>
             {!user && <CXNavLink to="/signup" navbar>Sign Up</CXNavLink>}
             {!user && <CXNavLink to="/login" outline navbar>Log In</CXNavLink>}
             {user && <CXNavLink as={Link} to="/dashboard" navbar>Dashboard</CXNavLink>}

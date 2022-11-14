@@ -6,6 +6,7 @@
 
   /* TAILWIND: GRAY 900 */
   --complementary: #111827;
+  --complementary-light: #374151;
 
   /* TAILWIND: GRAY 200-400 */
   --highlight-super-light: #f9fafb;
@@ -28,8 +29,8 @@
 
 body {
   font-family: 'Barlow', sans-serif;
-  color: var(--complementary);
-  background: var(--primary);
+  /* color: var(--complementary);
+  background: var(--primary); */
   box-sizing: border-box;
 }
 

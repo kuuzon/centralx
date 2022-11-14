@@ -6,7 +6,6 @@ const Styles = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   box-sizing: border-box;
-  background: var(--primary);
   border-radius: 5px;
   padding: 40px;
   text-align: center;

@@ -15,7 +15,6 @@ const Styles = styled.div`
   .lead-card {
     margin: auto;
     padding: 2rem;
-    background-color: var(--primary);
     border-radius: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     text-align: center;

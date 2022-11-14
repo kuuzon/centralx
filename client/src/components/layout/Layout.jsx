@@ -1,14 +1,12 @@
-// Import react modules
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer, Slide } from 'react-toastify';
-
-// Import npm packages
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 // Import components
 import Header from './Header';
 import Footer from './Footer';
+import { GlobalStyle, lightTheme, darkTheme } from '../../styles/theme';
 
 const AppWrap = styled.div`
   margin-top: 1rem;
@@ -16,30 +14,43 @@ const AppWrap = styled.div`
   flex: 1;
 `;
 
-const Layout = () => (
-  <div className="app">
-    {/* TOAST is a popup component to display Errors */}
-    <ToastContainer 
-      style={{ textAlign: "center" }} 
-      position='top-center'
-      autoClose={5000}
-      hideProgressBar
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss={false}
-      draggable
-      pauseOnHover
-      transition={Slide}
-      theme="colored"
-    />
-    <Header />
-    {/* Wrap all content in column-direction flexbox */}
-    <AppWrap>
-      <Outlet />
-    </AppWrap>
-    <Footer />
-  </div>
-);
+function Layout(){
+  const [theme, setTheme] = useState("light");
+  const isDarkTheme = theme === "dark";
+  
+  // Theme Toggle Function
+  const toggleTheme = () => {
+    setTheme(isDarkTheme ? "light" : "dark");
+  }
+
+  return (
+    <div className="app">
+      <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+        {/* TOAST is a popup component to display Errors */}
+        <GlobalStyle />
+        <ToastContainer 
+          style={{ textAlign: "center" }} 
+          position='top-center'
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          transition={Slide}
+          theme="colored"
+        />
+        <Header toggleTheme={toggleTheme} />
+        {/* Wrap all content in column-direction flexbox */}
+        <AppWrap>
+          <Outlet />
+        </AppWrap>
+        <Footer />
+      </ThemeProvider>
+    </div>
+  );
+}
 
 export default Layout
