@@ -13,6 +13,10 @@ const Styles = styled.div`
   }
 
   .lead-card {
+    color: ${({ theme }) => theme.text};
+    background: ${({ theme }) => theme.header};
+    transition: background 0.2s ease-in, color 0.2s ease-in;
+
     margin: auto;
     padding: 2rem;
     border-radius: 1rem;

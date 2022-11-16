@@ -40,6 +40,7 @@ const GridList = styled.div`
 
     & > div:nth-of-type(even) {
       background: var(--highlight-super-light);
+      border-radius: 10px;
     }
   }
 `;

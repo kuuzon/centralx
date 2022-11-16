@@ -49,9 +49,9 @@ const Header = ({ toggleTheme }) => {
           {/* AUTH NAVLINKS */}
           <Nav>
             <CXButton onClick={() => { toggleTheme() }} navbar>Theme</CXButton>
-            {!user && <CXNavLink to="/signup" navbar>Sign Up</CXNavLink>}
-            {!user && <CXNavLink to="/login" outline navbar>Log In</CXNavLink>}
-            {user && <CXNavLink as={Link} to="/dashboard" navbar>Dashboard</CXNavLink>}
+            {!user && <CXNavLink to="/signup" navbar>Sign&nbsp;Up</CXNavLink>}
+            {!user && <CXNavLink to="/login" outline navbar>Log&nbsp;In</CXNavLink>}
+            {user && <CXNavLink to="/dashboard" navbar>Dashboard</CXNavLink>}
             {user && <CXButton onClick={() => { logout() }} outline navbar>Logout</CXButton>}
           </Nav>
         </Navbar.Collapse>
