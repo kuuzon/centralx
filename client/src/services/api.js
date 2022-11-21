@@ -31,11 +31,6 @@ api.interceptors.response.use(null, (error) => {
 });
 
 // AXIOS DEFAULT CONFIGS: Set default header with each axios REQUEST for auth token
-// NOTE on Authorization > x-auth-token: 
-// - https://stackoverflow.com/questions/69494662/x-auth-token-vs-x-access-token-vs-authorization-in-jwt 
-// - https://jwt.io/introduction/ 
-// - https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
-
 export function setHeaderToken() {
   const token = localStorage.getItem("token");
   if(token) {
