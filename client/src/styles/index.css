@@ -7,7 +7,7 @@
   /* TAILWIND: GRAY 900 */
   --complementary: #111827;
   --complementary-light: #1e293b;
-  /* --complementary-light: #2d3748; */
+  --complementary-super-light: #334155;
 
   /* TAILWIND: GRAY 200-400 */
   --highlight-super-light: #f9fafb;
@@ -26,18 +26,4 @@
 
   /* TAILWIND: RED 600 */
   --error: #f87171; 
-}
-
-body {
-  font-family: 'Barlow', sans-serif;
-  /* color: var(--complementary);
-  background: var(--primary); */
-  box-sizing: border-box;
-}
-
-/* Flex Box App Structure */
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }

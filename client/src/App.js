@@ -64,9 +64,9 @@ export default App;
 
 // KNOWN ISSUES
 // - Weird loading error on CryptoDetail not showing loading spinner
-// - Refactor CSS into streamlined form component
-// - Dark mode setup with Styled Components
+// - Dark mode CSS needs work on components / list
 
 // EXPANSION
 // - Test for duplicate currencies
 // - Dashboard needs to be passed user id to URL & create image uploader for Dashboard profile 
+// - Refactor CSS into streamlined form component

@@ -5,11 +5,13 @@ import styled from 'styled-components';
 const MainFooter = styled.div`
   /* GLOBAL THEME  */
   color: ${({ theme }) => theme.text};
-  background: ${({ theme }) => theme.footer};
-  transition: background 0.2s ease-in, color 0.2s ease-in;
+  background: ${({ theme }) => theme.footerBody};
+  border-top: 1px solid ${({ theme }) => theme.footerBorder};
+  transition: 
+    background 0.2s ease-in, color 0.2s ease-in,
+    border-top 0.2s ease-in, color 0.2s ease-in;
 
   text-align: center;
-  border-top: 1px solid var(--highlight);
 `;
 
 const Footer = () => {

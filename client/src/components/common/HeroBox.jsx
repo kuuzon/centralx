@@ -5,8 +5,9 @@ import CXNavLink from './CXNavLink';
 const Styles = styled.div`
   /* GLOBAL THEME  */
   color: ${({ theme }) => theme.text};
-  background: ${({ theme }) => theme.header};
-  transition: background 0.2s ease-in, color 0.2s ease-in;
+  background: ${({ theme }) => theme.offBody};
+  transition: 
+    background 0.2s ease-in, color 0.2s ease-in;
 
   margin-top: 20px;
   margin-bottom: 20px;

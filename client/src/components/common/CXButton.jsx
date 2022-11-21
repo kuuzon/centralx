@@ -7,12 +7,22 @@ import styled from 'styled-components';
 const StyledButton = styled(Button)`
   width: 100%;
   border-radius: 1rem;
-  border: 2px solid var(--brand);
   transition: all 0.2s;
+  font-size: ${props => props.navbar ? "0.9em" : "1em"};
 
-  font-size: ${props => props.navbar ? "0.9em" : "1em"};  
-  background: ${props => props.outline ? "var(--primary)" : "var(--brand)"};
-  color: ${props => props.outline ? "var(--brand)" : "var(--primary)"};
+  /* GLOBAL THEMES */
+  background: ${props => props.outline 
+    ? props.theme.body
+    : "var(--brand)"
+  };
+  color: ${props => props.outline 
+    ? props.theme.buttonOutline
+    : "var(--primary)"
+  };
+  border: 2px solid ${props => props.outline 
+    ? props.theme.buttonOutline
+    : "var(--brand)"
+  };
 
   &:hover, &:active, &:focus {
     background-color: var(--brand-dark);

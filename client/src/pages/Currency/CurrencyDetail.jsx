@@ -18,18 +18,17 @@ const Styles = styled.div`
   .lead-heading {
     text-align: center;
     
-      .title {
-        font-size: 4em;
-        font-weight: 700;
-        margin-right: 0.8rem;
-        color: var(--complementary);
-      }
+    .title {
+      font-size: 4em;
+      font-weight: 700;
+      margin-right: 0.8rem;
+    }
     
-      .title-symbol {
-        font-size: 1.5em;
-        font-weight: 700;
-        color: var(--brand);
-      }
+    .title-symbol {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--brand);
+    }
   }
 
   .admin-box {
@@ -62,8 +61,7 @@ const Styles = styled.div`
         color: var(--brand);
 
         span {
-        font-size: 0.6em; 
-        color: var(--complementary)
+        font-size: 0.6em;
       }
       }
     }  
@@ -77,13 +75,29 @@ const Styles = styled.div`
     .title {
       font-size: 2.5em;
       font-weight: 500;
-      color: var(--complementary);
     }
 
     p {
       margin-top: 2rem;
       font-size: 1.2em;
     }
+  }
+`;
+
+const StyledAccordion = styled(Accordion)`
+  .accordion-item {
+    background: ${({ theme }) => theme.listBorder};
+    transition: 
+      background 0.2s ease-in, color 0.2s ease-in,
+      color 0.2s ease-in, color 0.2s ease-in;   
+  }
+
+  .accordion-button, .accordion-body {
+    background: ${({ theme }) => theme.offBody};
+    color: ${({ theme }) => theme.text};
+    transition: 
+      background 0.2s ease-in, color 0.2s ease-in,
+      color 0.2s ease-in, color 0.2s ease-in;  
   }
 `;
 
@@ -214,7 +228,7 @@ const CurrencyDetail = () => {
 
         {/* HIDDEN - ADMIN DROPDOWN SECTION*/}
         { user && <div className="admin-box">
-          <Accordion>
+          <StyledAccordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>Admin Functions</Accordion.Header>
               <Accordion.Body>
@@ -232,7 +246,7 @@ const CurrencyDetail = () => {
                 </Container>
               </Accordion.Body>
             </Accordion.Item>
-          </Accordion>
+          </StyledAccordion>
           </div>}
       </Container>
 

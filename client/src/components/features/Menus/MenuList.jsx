@@ -9,6 +9,15 @@ const GridList = styled.div`
   margin: 2rem 0;
 
   .grid-static {
+    /* GLOBAL THEMES */
+    background: ${({ theme }) => theme.staticListBody};
+    border: 0.1rem solid ${({ theme }) => theme.staticListBody};
+    color: ${({ theme }) => theme.staticListText};
+    transition: 
+      background 0.2s ease-in, color 0.2s ease-in,
+      border 0.2s ease-in, color 0.2s ease-in,
+      color 0.2s ease-in, color 0.2s ease-in;
+
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(5, 1fr);
@@ -16,16 +25,12 @@ const GridList = styled.div`
     justify-content: space-between;
     padding: 1rem;
     margin-bottom: 1rem;
-
-    background: var(--highlight-light);
-    border: 0.1rem solid var(--highlight-light);
     border-radius: 10px;
 
     span {
       margin: auto;
       font-size: 1.1em;
       font-weight: 800;
-      color: var(--highlight-super-dark);
     }
 
     .grid-item-left {
@@ -33,13 +38,19 @@ const GridList = styled.div`
     }
   }
 
-  .grid-coin {
+  .grid-coin {    
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(1, 1fr);
 
     & > div:nth-of-type(even) {
-      background: var(--highlight-super-light);
+      /* GLOBAL THEMES */
+      background: ${({ theme }) => theme.listOffBody};
+      color: ${({ theme }) => theme.text};
+      transition: 
+        background 0.2s ease-in, color 0.2s ease-in,
+        color 0.2s ease-in, color 0.2s ease-in;
+
       border-radius: 10px;
     }
   }

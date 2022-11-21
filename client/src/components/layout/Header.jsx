@@ -13,7 +13,17 @@ import CXButton from '../../components/common/CXButton';
 import CXNavLink from '../common/CXNavLink';
 
 const StyledNavbar = styled(Navbar)`
+  /* GLOBAL THEME  */
+  background: ${({ theme }) => theme.offBody};
+  transition: background 0.2s ease-in, color 0.2s ease-in;
+
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;   /* ATTACH TO SCROLL EVENT */
+
+  .navbar-brand, .nav-link {  
+    /* GLOBAL THEME  */
+    color: ${({ theme }) => theme.text} !important;
+    transition: color 0.2s ease-in, color 0.2s ease-in;
+  }
 `;
 
 const StyledLogo = styled(RiExchangeFundsLine)`

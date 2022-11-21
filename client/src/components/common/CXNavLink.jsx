@@ -4,20 +4,30 @@ import styled from 'styled-components';
 
 const StyledLink = styled(Link)`
   border-radius: 1rem;
-  border: 2px solid var(--brand);
   transition: all 0.2s;
   padding: 0.4rem 1rem;
   text-decoration: none;
   margin: 0 0.4rem;
   text-align: center;
-
   font-size: ${props => props.navbar ? "0.9em" : "1em"};
-  background: ${props => props.outline ? "var(--primary)" : "var(--brand)"};
-  color: ${props => props.outline ? "var(--brand)" : "var(--primary)"};
+  
+  /* GLOBAL THEMES */
+  background: ${props => props.outline 
+    ? props.theme.body
+    : "var(--brand)"
+  };
+  color: ${props => props.outline 
+    ? props.theme.buttonOutline
+    : "var(--primary)"
+  };
+  border: 2px solid ${props => props.outline 
+    ? props.theme.buttonOutline
+    : "var(--brand)"
+  };
 
   &:hover, &:active, &:focus {
     color: var(--primary);
-    background-color: var(--brand-dark);
+    background: var(--brand-dark);
     border: 2px solid var(--brand-dark);
     transform: scale(1.02);
     box-shadow: none;

@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer, Slide } from 'react-toastify';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
 // Import components
 import Header from './Header';
 import Footer from './Footer';
-import { GlobalStyle, lightTheme, darkTheme } from '../../styles/theme';
-
-const AppWrap = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  flex: 1;
-`;
+import GlobalStyle from '../../styles/globalStyle';
+import { lightTheme, darkTheme } from '../../styles/theme';
 
 function Layout(){
   const [theme, setTheme] = useState("light");
@@ -24,10 +19,10 @@ function Layout(){
   }
 
   return (
-    <div className="app">
-      <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <GlobalStyle />
+      <div className="app">
         {/* TOAST is a popup component to display Errors */}
-        <GlobalStyle />
         <ToastContainer 
           style={{ textAlign: "center" }} 
           position='top-center'
@@ -44,12 +39,12 @@ function Layout(){
         />
         <Header toggleTheme={toggleTheme} />
         {/* Wrap all content in column-direction flexbox */}
-        <AppWrap>
+        <div className="appContent">
           <Outlet />
-        </AppWrap>
+        </div>
         <Footer />
-      </ThemeProvider>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

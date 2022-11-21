@@ -14,18 +14,17 @@ const Styles = styled.div`
   .lead-heading {
     text-align: center;
     
-      .title {
-        font-size: 4em;
-        font-weight: 700;
-        margin-right: 0.8rem;
-        color: var(--complementary);
-      }
-    
-      .title-symbol {
-        font-size: 1.5em;
-        font-weight: 700;
-        color: var(--brand);
-      }
+    .title {
+      font-size: 4em;
+      font-weight: 700;
+      margin-right: 0.8rem;
+    }
+  
+    .title-symbol {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--brand);
+    }
   }
   
   .description-section {
@@ -36,7 +35,6 @@ const Styles = styled.div`
     .title {
       font-size: 2.5em;
       font-weight: 500;
-      color: var(--complementary);
     }
 
     p {

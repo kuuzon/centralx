@@ -4,12 +4,15 @@ import CXNavLink from '../../common/CXNavLink';
 
 const Styles = styled.div`
   .grid-row {
+    /* GLOBAL THEMES */
+    border: 0.1rem solid ${({ theme }) => theme.listBorder};
+    transition: 
+      border 0.2s ease-in, color 0.2s ease-in;
+
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
-  
-    border: 0.1rem solid var(--highlight-light);
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
     padding: 1rem 2rem;
