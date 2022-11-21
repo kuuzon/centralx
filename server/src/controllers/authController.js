@@ -71,8 +71,6 @@ module.exports = {
   // [3] LOGIN: POST
   async login(req, res, next){
     try {
-      debugAuth(`Status of Authorization Header: ${req.headers['Authorization']}`);
-      
       // (a) Destructure specific properties for use
       const { email, password } = req.body; 
       

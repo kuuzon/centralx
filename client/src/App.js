@@ -42,9 +42,12 @@ function App() {
         {/* CURRENCY: API */}
         <Route path="currency">                
           <Route path="prices" element={<CurrencyMenu />} />
-          <Route path="add" element={<AddCurrency />} />
           <Route path=":id" element={<CurrencyDetail />} />
-          <Route path="edit/:id" element={<EditCurrency />} />
+          {/* PRIVATE WRITE CURRENCY ROUTES */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="add" element={<AddCurrency />} />
+            <Route path="edit/:id" element={<EditCurrency />} />
+          </Route>
         </Route>
         {/* CRYPTO: EXTERNAL API */}
         <Route path="crypto">
