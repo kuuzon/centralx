@@ -64,7 +64,6 @@ export default App;
 
 // KNOWN ISSUES
 // - Weird loading error on CryptoDetail not showing loading spinner
-// - Dark mode CSS needs work on components / list
 
 // EXPANSION
 // - Test for duplicate currencies
