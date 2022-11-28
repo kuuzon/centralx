@@ -46,7 +46,12 @@ const CurrencyMenu = () => {
       const data = await response.data;
       setData(data);
     } catch(err) {
-      setError(true); 
+      console.log(err?.response);
+      if(err.response.status === 500) {
+        setError(true); 
+      } else {
+        setError(false);
+      }
     }
   }
 
