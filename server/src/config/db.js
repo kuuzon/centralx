@@ -35,5 +35,5 @@ try {
 
 // DEBUG: Unhandled error will be logged to console
 } catch(err) {
-  debugError500(error);
+  debugError500(err);
 }

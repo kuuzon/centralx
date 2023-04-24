@@ -15,6 +15,7 @@ function Layout(){
   
   // Theme Toggle Function
   const toggleTheme = () => {
+    // setTheme((curr) => (curr === "dark" ? "dark" : "dark"));
     const updatedTheme = isDarkTheme ? "light" : "dark";
     setTheme(updatedTheme);
     localStorage.setItem("theme", updatedTheme);
